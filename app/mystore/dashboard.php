@@ -1,4 +1,4 @@
-<?php require_once('permission/access.php') ?>
+<?php require_once('permission/access.php'); require_once('api/mystore.php') ?>
 
 <!DOCTYPE html>
 <!--
@@ -19,7 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
 
-<body class="hold-transition sidebar-mini" onload="count()">
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
         <!-- Include Navigator file -->
@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">ยินดีต้อนรับ <strong class="text-red"><?= $_SESSION['ADMIN_FIRSTNAME']." ".$_SESSION['ADMIN_LASTNAME']; ?></strong> สู่ระบบจัดการข้อมูลหลังบ้าน</h1>
+                            <h1 class="m-0">ยินดีต้อนรับ <strong class="text-red"><?= $_SESSION['ADMIN_FIRSTNAME']." ".$_SESSION['ADMIN_LASTNAME']; ?></strong> สู่ระบบจัดการข้อมูลหลังร้าน</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">

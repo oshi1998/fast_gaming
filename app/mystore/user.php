@@ -1,4 +1,4 @@
-<?php require_once('permission/access.php') ?>
+<?php require_once('permission/access.php'); require_once('api/mystore.php') ?>
 
 <!DOCTYPE html>
 <!--

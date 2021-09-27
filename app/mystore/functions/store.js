@@ -12,6 +12,7 @@ function read(){
         $('#phone').val(data['st_phone']);
         $('#email').val(data['st_email']);
         $('#preview_logo').prop('src','../images/'+data['st_logo']);
+        $('#old_logo').val(data['st_logo']);
         $('#facebook').val(data['st_facebook']);
         $('#twitter').val(data['st_twitter']);
         $('#ig').val(data['st_ig']);

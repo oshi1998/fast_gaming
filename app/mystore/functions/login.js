@@ -1,15 +1,16 @@
-$('#loginForm').submit(function (e) {
-    e.preventDefault();
-
+function login() {
     $.ajax({
         method: "post",
         url: "api/auth/login.php",
-        data: $(this).serialize()
+        data: $('#loginForm').serialize()
     }).done(function (res) {
         console.log(res);
         window.location = 'dashboard.php';
     }).fail(function (res) {
         console.log(res);
-        toastr.error(res.responseJSON['message']);
+        swal({
+            title: res.responseJSON['message'],
+            icon: "error"
+        });
     });
-});
+}

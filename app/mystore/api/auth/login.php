@@ -16,9 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit();
     }
 
-    $sql = "SELECT * FROM users WHERE usr_username = ?";
+    $sql = "SELECT usr_username,usr_firstname,usr_lastname,usr_password,usr_level FROM users WHERE usr_username=:uname
+    UNION SELECT emp_id,emp_firstname,emp_lastname,emp_password,emp_level FROM employees WHERE emp_id=:uname ";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$_POST['username']]);
+    $stmt->execute([
+        'uname' => $_POST['username']
+    ]);
     $row = $stmt->fetchObject();
 
     if (!empty($row)) {

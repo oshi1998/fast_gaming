@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if ($_POST['old_logo'] != "") {
 
                 $delete_dir = "../../../images/" . $_POST['old_logo'];
-
+                
                 if (file_exists($delete_dir)) {
                     unlink($delete_dir);
                 }

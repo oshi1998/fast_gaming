@@ -16,19 +16,25 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $row = $stmt->fetchObject();
 
             if (!empty($row)) {
+
+                $sql = "SELECT * FROM product_types";
+                $stmt = $pdo->query($sql);
+                $types = $stmt->fetchAll();
+
+                $sql = "SELECT * FROM brands";
+                $stmt = $pdo->query($sql);
+                $brands = $stmt->fetchAll();
+
                 http_response_code(200);
-                echo json_encode(['message' => "โหลดข้อมูล $_GET[id] สำเร็จ",'data'=>$row]);
+                echo json_encode(['message' => "โหลดข้อมูล $_GET[id] สำเร็จ", 'data' => $row, 'types' => $types, 'brands' => $brands]);
             } else {
                 http_response_code(412);
                 echo json_encode(['message' => "ไม่มีข้อมูล $_GET[id]"]);
             }
-
         } else {
             http_response_code(412);
             echo json_encode(['message' => "Query ไม่ผ่าน"]);
         }
-
-        
     } else {
         http_response_code(412);
         echo json_encode(['message' => "ไม่มี ID ถูกส่งมา"]);

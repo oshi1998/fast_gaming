@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 26, 2021 at 10:42 PM
+-- Generation Time: Sep 27, 2021 at 11:18 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -24,6 +24,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `brands`
+--
+
+CREATE TABLE `brands` (
+  `brand_id` int(11) NOT NULL COMMENT 'รหัสยี่ห้อ',
+  `brand_name` varchar(255) NOT NULL COMMENT 'ชื่อยี่ห้อ',
+  `brand_created` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'สร้างเมื่อ',
+  `brand_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'อัพเดตเมื่อ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`brand_id`, `brand_name`, `brand_created`, `brand_updated`) VALUES
+(3, 'Fantech', '2021-09-27 17:14:34', '2021-09-27 17:16:34'),
+(4, 'Razer', '2021-09-27 17:16:29', '2021-09-27 17:16:48');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customers`
 --
 
@@ -39,6 +60,31 @@ CREATE TABLE `customers` (
   `cus_created` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'สร้างเมื่อ',
   `cus_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'อัพเดตล่าสุด'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `discount_codes`
+--
+
+CREATE TABLE `discount_codes` (
+  `dc_id` int(11) NOT NULL COMMENT 'รหัส',
+  `dc_code` varchar(255) NOT NULL COMMENT 'โค้ดส่วนลด',
+  `dc_type` varchar(255) NOT NULL COMMENT 'ประเภทส่วนลด',
+  `dc_value` double(10,2) NOT NULL COMMENT 'ส่วนลด',
+  `dc_created` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'สร้างเมื่อ',
+  `dc_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'อัพเดตล่าสุด'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `discount_codes`
+--
+
+INSERT INTO `discount_codes` (`dc_id`, `dc_code`, `dc_type`, `dc_value`, `dc_created`, `dc_updated`) VALUES
+(2, 'TEST2', 'ส่วนลดเปอร์เซ็น', 10.00, '2021-09-27 20:26:02', '2021-09-27 20:26:02'),
+(3, 'TEST66', 'ส่วนลดเงินสด', 100.00, '2021-09-27 20:26:15', '2021-09-27 20:26:15'),
+(4, 'TESTAAA1', 'ส่วนลดเปอร์เซ็น', 50.00, '2021-09-27 20:28:40', '2021-09-27 20:29:58'),
+(5, 'NEWCUSTOMER2021', 'ส่วนลดเปอร์เซ็น', 5.00, '2021-09-27 21:00:44', '2021-09-27 21:00:44');
 
 -- --------------------------------------------------------
 
@@ -68,6 +114,47 @@ CREATE TABLE `employees` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `pro_id` varchar(255) NOT NULL COMMENT 'รหัสสินค้า',
+  `pro_name` varchar(255) NOT NULL COMMENT 'ชื่อสินค้า',
+  `pro_detail` longtext NOT NULL COMMENT 'รายละเอียดสินค้า',
+  `pro_qty` int(11) NOT NULL COMMENT 'จำนวนคงเหลือ',
+  `pro_price` double(10,2) NOT NULL COMMENT 'ราคา',
+  `pro_type` int(11) NOT NULL COMMENT 'รหัสประเภท',
+  `pro_brand` int(11) NOT NULL COMMENT 'รหัสแบรนด์',
+  `pro_img` text NOT NULL COMMENT 'ไฟล์ภาพสินค้า',
+  `pro_view` int(11) NOT NULL DEFAULT 0 COMMENT 'ยอดผู้ชม',
+  `pro_created` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'สร้างเมื่อ',
+  `pro_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'อัพเดตเมื่อ'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_types`
+--
+
+CREATE TABLE `product_types` (
+  `pt_id` int(11) NOT NULL COMMENT 'รหัสประเภทสินค้า',
+  `pt_name` varchar(255) NOT NULL COMMENT 'ชื่อประเภท',
+  `pt_created` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'สร้างเมื่อ',
+  `pt_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'อัพเดตล่าสุด'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `product_types`
+--
+
+INSERT INTO `product_types` (`pt_id`, `pt_name`, `pt_created`, `pt_updated`) VALUES
+(2, 'เมาส์เกมมิ่งเกียร์', '2021-09-27 17:43:10', '2021-09-27 17:43:10'),
+(3, 'คีย์บอร์ดเกมมิ่งเกียร์', '2021-09-27 19:19:31', '2021-09-27 19:19:31');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `store`
 --
 
@@ -92,7 +179,7 @@ CREATE TABLE `store` (
 --
 
 INSERT INTO `store` (`st_name`, `st_address`, `st_phone`, `st_email`, `st_facebook`, `st_twitter`, `st_ig`, `st_youtube`, `st_line`, `st_logo`, `st_description`, `st_keywords`, `st_author`) VALUES
-('The Fast Gaming Gear', '40/88-89 หมู่บ้านพรธิสาร 3 ซอย 11 ตำบลคลองหก อำเภอคลองหลวง จังหวัดปทุมธานี 12120', '0969247674', '', 'https://www.facebook.com/TheFast.co.th/', '', '', '', '@574aabzd', '6150d61f4ba9c.jpg', 'ร้าน The Fast เป็นร้านขายอุปกรณ์คอมพิวเตอร์ทุกชนิด ตั้งอยู่ที่ 40/88-89 หมู่บ้านพรธิสาร 3 ซอย 11 ตำบลคลองหก อำเภอคลองหลวง จังหวัดปทุมธานี 12120', 'เมาส์เกมมิ่งเกียร์,คีย์บอร์ดเกมมิ่งเกียร์,หูฟังเกมมิ่งเกียร์,เก้าอี้เกมมิ่งเกียร์\r\n', 'Supakit Sarasit');
+('The Fast Gaming Gear', '40/88-89 หมู่บ้านพรธิสาร 3 ซอย 11 ตำบลคลองหก อำเภอคลองหลวง จังหวัดปทุมธานี 12120', '0969247674', '', 'https://www.facebook.com/TheFast.co.th/', '', '', '', '@574aabzd', '6151952416084.jpg', 'ร้าน The Fast เป็นร้านขายอุปกรณ์คอมพิวเตอร์ทุกชนิด ตั้งอยู่ที่ 40/88-89 หมู่บ้านพรธิสาร 3 ซอย 11 ตำบลคลองหก อำเภอคลองหลวง จังหวัดปทุมธานี 12120', 'เมาส์เกมมิ่งเกียร์,คีย์บอร์ดเกมมิ่งเกียร์,หูฟังเกมมิ่งเกียร์,เก้าอี้เกมมิ่งเกียร์\r\n', 'Supakit Sarasit');
 
 -- --------------------------------------------------------
 
@@ -123,10 +210,22 @@ INSERT INTO `users` (`usr_username`, `usr_firstname`, `usr_lastname`, `usr_conta
 --
 
 --
+-- Indexes for table `brands`
+--
+ALTER TABLE `brands`
+  ADD PRIMARY KEY (`brand_id`);
+
+--
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`cus_username`);
+
+--
+-- Indexes for table `discount_codes`
+--
+ALTER TABLE `discount_codes`
+  ADD PRIMARY KEY (`dc_id`);
 
 --
 -- Indexes for table `employees`
@@ -135,10 +234,57 @@ ALTER TABLE `employees`
   ADD PRIMARY KEY (`emp_id`);
 
 --
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`pro_id`),
+  ADD KEY `pro_brand` (`pro_brand`),
+  ADD KEY `pro_type` (`pro_type`);
+
+--
+-- Indexes for table `product_types`
+--
+ALTER TABLE `product_types`
+  ADD PRIMARY KEY (`pt_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`usr_username`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `brands`
+--
+ALTER TABLE `brands`
+  MODIFY `brand_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัสยี่ห้อ', AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `discount_codes`
+--
+ALTER TABLE `discount_codes`
+  MODIFY `dc_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัส', AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `product_types`
+--
+ALTER TABLE `product_types`
+  MODIFY `pt_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัสประเภทสินค้า', AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`pro_brand`) REFERENCES `brands` (`brand_id`),
+  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`pro_type`) REFERENCES `product_types` (`pt_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

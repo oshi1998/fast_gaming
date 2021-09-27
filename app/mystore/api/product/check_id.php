@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     $sql = "SELECT pro_id FROM products WHERE pro_id=?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$_GET['name']]);
+    $stmt->execute([$_GET['id']]);
     $row = $stmt->fetchAll();
 
     if (empty($row)) {

@@ -1,8 +1,4 @@
-<?php 
-require_once('permission/access.php');
-require_once('permission/onlyowner.php');
-require_once('api/mystore.php');
-?>
+<?php require_once('permission/access.php'); require_once('api/mystore.php') ?>
 
 <!DOCTYPE html>
 <!--
@@ -14,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>จัดการข้อมูลพนักงาน | ระบบจัดการข้อมูลหลังบ้าน</title>
+    <title>จัดการข้อมูลยี่ห้อสินค้า | ระบบจัดการข้อมูลหลังบ้าน</title>
     <!-- Sweetalert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Toastr -->
@@ -42,12 +38,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">จัดการข้อมูลพนักงาน</h1>
+                            <h1 class="m-0">จัดการข้อมูลยี่ห้อสินค้า</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">แดชบอร์ด</a></li>
-                                <li class="breadcrumb-item active">จัดการข้อมูลพนักงาน</li>
+                                <li class="breadcrumb-item active">จัดการข้อมูลยี่ห้อสินค้า</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -76,11 +72,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <thead>
                                             <tr>
                                                 <th>สร้างเมื่อ</th>
-                                                <th>รูปประจำตัว</th>
-                                                <th>รหัสพนักงาน</th>
-                                                <th>ชื่อจริง-นามสกุล</th>
-                                                <th>ข้อมูลติดด่อ</th>
-                                                <th>สถานะ</th>
+                                                <th>รหัส</th>
+                                                <th>ชื่อ</th>
                                                 <th>จัดการ</th>
                                             </tr>
                                         </thead>
@@ -101,10 +94,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.content-wrapper -->
 
 
-
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel"></h5>
@@ -144,10 +136,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
 
-    <!-- Employee Function -->
-    <script src="functions/employee.js"></script>
-
-
+    <!-- Brand Function -->
+    <script src="functions/brand.js"></script>
 </body>
 
 </html>

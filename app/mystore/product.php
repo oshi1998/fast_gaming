@@ -1,8 +1,17 @@
-<?php 
+<?php
 require_once('permission/access.php');
-require_once('permission/onlyowner.php');
 require_once('api/mystore.php');
+
+$sql = "SELECT * FROM product_types";
+$stmt = $pdo->query($sql);
+$types = $stmt->fetchAll();
+
+$sql = "SELECT * FROM brands";
+$stmt = $pdo->query($sql);
+$brands = $stmt->fetchAll();
+
 ?>
+
 
 <!DOCTYPE html>
 <!--
@@ -14,7 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>จัดการข้อมูลพนักงาน | ระบบจัดการข้อมูลหลังบ้าน</title>
+    <title>จัดการข้อมูลสินค้า | ระบบจัดการข้อมูลหลังบ้าน</title>
     <!-- Sweetalert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Toastr -->
@@ -42,12 +51,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">จัดการข้อมูลพนักงาน</h1>
+                            <h1 class="m-0">จัดการข้อมูลสินค้า</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">แดชบอร์ด</a></li>
-                                <li class="breadcrumb-item active">จัดการข้อมูลพนักงาน</li>
+                                <li class="breadcrumb-item active">จัดการข้อมูลสินค้า</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -64,10 +73,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        <button type="button" class="btn btn-outline-success" onclick="add()">
+                                        <button type="button" class="btn btn-outline-success mb-3" data-toggle="collapse" data-target="#collapseAdd">
                                             <i class="fas fa-plus"></i>
                                             <span>เพิ่มข้อมูล</span>
                                         </button>
+
+                                        <div class="collapse" id="collapseAdd">
+                                            <?php foreach ($types as $type) { ?>
+                                                <div id="accordion">
+                                                    <div class="card">
+                                                        <div class="card-header" id="heading<?= $type['pt_id'] ?>">
+                                                            <h5 class="mb-0">
+                                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse<?= $type['pt_id'] ?>" aria-expanded="true" aria-controls="collapse<?= $type['pt_id'] ?>">
+                                                                    <?= $type['pt_name'] ?>
+                                                                </button>
+                                                            </h5>
+                                                        </div>
+                                                        <div id="collapse<?= $type['pt_id'] ?>" class="collapse" aria-labelledby="heading<?= $type['pt_id'] ?>" data-parent="#accordion">
+                                                            <div class="card-body">
+                                                                <?php foreach ($brands as $brand) { ?>
+                                                                    <button class="btn btn-outline-primary" onclick="add('<?= $type['pt_id'] ?>','<?= $type['pt_name'] ?>','<?= $brand['brand_id'] ?>','<?= $brand['brand_name'] ?>')"><?= $brand['brand_name'] ?></button>
+                                                                <?php } ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
                                     </h3>
                                 </div>
                                 <!-- /.card-header -->
@@ -76,11 +108,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <thead>
                                             <tr>
                                                 <th>สร้างเมื่อ</th>
-                                                <th>รูปประจำตัว</th>
-                                                <th>รหัสพนักงาน</th>
-                                                <th>ชื่อจริง-นามสกุล</th>
-                                                <th>ข้อมูลติดด่อ</th>
-                                                <th>สถานะ</th>
+                                                <th>ภาพ</th>
+                                                <th>รหัส</th>
+                                                <th>ประเภท</th>
+                                                <th>ยี่ห้อ</th>
+                                                <th>ชื่อ</th>
+                                                <th>ราคา</th>
+                                                <th>คงเหลือ</th>
                                                 <th>จัดการ</th>
                                             </tr>
                                         </thead>
@@ -99,7 +133,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-
 
 
         <!-- Modal -->
@@ -144,10 +177,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
 
-    <!-- Employee Function -->
-    <script src="functions/employee.js"></script>
-
-
+    <!-- Brand Function -->
+    <script src="functions/product.js"></script>
 </body>
 
 </html>

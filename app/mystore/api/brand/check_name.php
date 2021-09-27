@@ -19,10 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     if (empty($row)) {
         http_response_code(200);
-        echo json_encode(['message' => "$_GET[username] สามารถใช้งานได้"]);
+        echo json_encode(['message' => "$_GET[name] สามารถใช้งานได้"]);
     } else {
         http_response_code(412);
-        echo json_encode(['message' => "$_GET[username] ถูกใช้งานแล้ว"]);
+        echo json_encode(['message' => "$_GET[name] ถูกใช้งานแล้ว"]);
     }
 } else {
     http_response_code(405);

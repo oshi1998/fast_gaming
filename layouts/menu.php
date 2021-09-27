@@ -10,13 +10,13 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 13);
                     <a href="">
                         <i class="fa fa-phone" aria-hidden="true"></i>
                         <span>
-                            Call : +01 123455678990
+                            เบอร์โทร : <?= $store->st_phone ?>
                         </span>
                     </a>
                     <a href="">
                         <i class="fa fa-envelope" aria-hidden="true"></i>
                         <span>
-                            Email : demo@gmail.com
+                            อีเมล : <?= $store->st_email ?>
                         </span>
                     </a>
                 </div>
@@ -51,7 +51,7 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 13);
             <nav class="navbar navbar-expand-lg custom_nav-container ">
                 <a class="navbar-brand" href="index.php">
                     <span>
-                        Minics
+                        <?= $store->st_name ?>
                     </span>
                 </a>
 

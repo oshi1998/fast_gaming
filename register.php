@@ -1,7 +1,10 @@
 <?php
+session_start();
+require_once('app/api/connect.php');
+require_once('app/api/mystore.php');
 
 session_start();
-if(isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME'])){
+if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME'])) {
     header("location:index.php");
 }
 

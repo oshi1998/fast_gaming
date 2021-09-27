@@ -135,13 +135,13 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 25);
                         <li class="nav-item">
                             <a href="product_type.php" class="nav-link <?= ($current_file == 'product_type.php') ? 'active' : '' ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>ประเภท</p>
+                                <p>ประเภทสินค้า</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="brand.php" class="nav-link <?= ($current_file == 'brand.php') ? 'active' : '' ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>ยี่ห้อ</p>
+                                <p>ยี่ห้อสินค้า</p>
                             </a>
                         </li>
                         <li class="nav-item">

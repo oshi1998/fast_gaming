@@ -1,7 +1,7 @@
-<?php
-
+<?php 
 session_start();
-
+require_once('app/api/connect.php');
+require_once('app/api/mystore.php');
 ?>
 
 <!DOCTYPE html>

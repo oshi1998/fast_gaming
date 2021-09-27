@@ -13,10 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit;
     }
 
-    $sql = "UPDATE customers SET pt_name=:name";
+    $sql = "UPDATE product_types SET pt_name=:name WHERE pt_id=:id";
     $stmt = $pdo->prepare($sql);
     $result = $stmt->execute([
         'name' => $_POST['name'],
+        'id' => $_POST['id']
     ]);
 
     if ($result) {

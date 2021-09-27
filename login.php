@@ -1,8 +1,12 @@
 <?php
 
+
 session_start();
-if(isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME'])){
-    header("location:index.php");
+require_once('app/api/connect.php');
+require_once('app/api/mystore.php');
+
+if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME'])) {
+  header("location:index.php");
 }
 
 ?>
@@ -47,18 +51,18 @@ if(isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME'
       </div>
       <div class="row d-flex justify-content-center">
         <div class="col-lg-4 col-12">
-            <form id="loginForm">
-                <div class="form-group">
-                    <input type="text" class="form-control text-center" name="username" placeholder="ชื่อผู้ใช้งาน">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control text-center" name="password" placeholder="รหัสผ่าน">
-                </div>
-                <div class="form-group text-center">
-                    <button type="button" class="btn btn-success btn-block" onclick="submitLogin()">เข้าสู่ระบบ</button><br>
-                    <a href="register.php">ต้องการลงทะเบียนใช้งาน?</a>
-                </div>
-            </form>
+          <form id="loginForm">
+            <div class="form-group">
+              <input type="text" class="form-control text-center" name="username" placeholder="ชื่อผู้ใช้งาน">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control text-center" name="password" placeholder="รหัสผ่าน">
+            </div>
+            <div class="form-group text-center">
+              <button type="button" class="btn btn-success btn-block" onclick="submitLogin()">เข้าสู่ระบบ</button><br>
+              <a href="register.php">ต้องการลงทะเบียนใช้งาน?</a>
+            </div>
+          </form>
         </div>
       </div>
     </div>

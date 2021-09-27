@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2021 at 11:18 PM
+-- Generation Time: Sep 27, 2021 at 11:42 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -130,6 +130,13 @@ CREATE TABLE `products` (
   `pro_created` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'สร้างเมื่อ',
   `pro_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'อัพเดตเมื่อ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`pro_id`, `pro_name`, `pro_detail`, `pro_qty`, `pro_price`, `pro_type`, `pro_brand`, `pro_img`, `pro_view`, `pro_created`, `pro_updated`) VALUES
+('PRO202192843841', 'MOUSE (เมาส์) FANTECH BLAKE X17 (WHITE)', '', 10, 740.00, 2, 3, '615239ec48398.jpg', 0, '2021-09-27 21:38:52', '2021-09-27 21:38:52');
 
 -- --------------------------------------------------------
 

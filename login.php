@@ -22,11 +22,11 @@ if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <!-- Site Metas -->
 
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+  <meta name="keywords" content="<?= $store->st_keywords ?>" />
+  <meta name="description" content="<?= $store->st_description ?>" />
+  <meta name="author" content="<?= $store->st_author ?>" />
 
-  <title>เข้าสู่ระบบ</title>
+  <title>เข้าสู่ระบบ | <?= $store->st_name ?></title>
 
   <?php require_once('layouts/head.php'); ?>
 </head>

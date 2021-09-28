@@ -79,8 +79,8 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 13);
                                     สวัสดี, <?= $_SESSION['CUSTOMER_USERNAME'] ?>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">ข้อมูลส่วนตัว</a>
-                                    <a class="dropdown-item" href="#">ประวัติการสั่งของ</a>
+                                    <a class="dropdown-item" href="#">บัญชีของฉัน</a>
+                                    <a class="dropdown-item" href="#">ประวัติการซื้อ</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="javascript:void(0)" onclick="logout()">ออกจากระบบ</a>
                                 </div>

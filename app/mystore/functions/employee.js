@@ -71,6 +71,10 @@ function read() {
 }
 
 function add() {
+
+    let now = new Date();
+    let today = now.getFullYear()+'-'+("0" + (now.getMonth() + 1)).slice(-2)+'-'+now.getDate();
+
     let form = `
     <form id="createForm">
     <div class="row">
@@ -117,12 +121,12 @@ function add() {
                 <input type="text" class="form-control" minlength="13" maxlength="13" name="id_card_code">
             </div>
             <div class="form-group">
-                <label>ไฟล์ภาพบัตรประชาชน (เฉพาะ .png .jpg .jpeg)</label>
+                <label>ไฟล์ภาพบัตรประชาชน</label>
                 <input type="file" class="form-control" name="id_card_img" accept="image/*">
             </div>
             <div class="form-group">
                 <label>วันที่เข้าทำงาน</label>
-                <input type="date" class="form-control" name="join_date">
+                <input type="date" class="form-control" name="join_date" value="${today}">
             </div>
             <div class="form-group">
                 <label>สถานภาพ</label>
@@ -282,7 +286,7 @@ function edit(id) {
                     <input type="text" class="form-control" minlength="13" maxlength="13" name="id_card_code" value="${data['emp_id_card_code']}">
                 </div>
                 <div class="form-group">
-                    <label>ไฟล์ภาพบัตรประชาชน (เฉพาะ .png .jpg .jpeg)</label>
+                    <label>ไฟล์ภาพบัตรประชาชน</label>
                     <input type="text" name="old_id_card_img" value="${data['emp_id_card_img']}" hidden readonly>
                     <input type="file" class="form-control" name="id_card_img" accept="image/*">
                 </div>

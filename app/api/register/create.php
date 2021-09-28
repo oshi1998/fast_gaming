@@ -36,12 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($_POST['password'] == $_POST['confirm_password']) {
 
-        $sql = "INSERT INTO customers (cus_firstname,cus_lastname,cus_gender,cus_username,cus_password) VALUES 
-        (:firstname,:lastname,:gender,:username,:password)";
+        $sql = "INSERT INTO customers (cus_firstname,cus_lastname,cus_phone,cus_gender,cus_username,cus_password) VALUES 
+        (:firstname,:lastname,:phone,:gender,:username,:password)";
         $stmt = $pdo->prepare($sql);
         $result = $stmt->execute([
             'firstname' => $_POST['firstname'],
             'lastname' => $_POST['lastname'],
+            'phone' => $_POST['phone'],
             'gender' => $_POST['gender'],
             'username' => $_POST['username'],
             'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)

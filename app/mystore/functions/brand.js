@@ -10,12 +10,13 @@ function read() {
         let data = res.data;
 
         let data_table;
+        let no = 1;
 
         data.forEach(element => {
             data_table += `
                 <tr>
+                    <td>${no++}</td>
                     <td>${element['brand_created']}</td>
-                    <td>${element['brand_id']}</td>
                     <td>${element['brand_name']}</td>
                     <td>
                         <button class="btn btn-primary" onclick="edit('${element['brand_id']}')">
@@ -37,7 +38,7 @@ function read() {
             "lengthChange": true,
             "searching": true,
             "ordering": true,
-            "order": [[0, "desc"]],
+            "order": [[0, "asc"]],
             "info": true,
             "autoWidth": false,
             "responsive": true,
@@ -94,12 +95,12 @@ function checkName(name) {
     });
 }
 
-function checkEditName(name){
+function checkEditName(name) {
 
-    console.log("Edit Name = "+name);
-    console.log("Default Name = "+defaultName);
+    console.log("Edit Name = " + name);
+    console.log("Default Name = " + defaultName);
 
-    if(name!=defaultName){
+    if (name != defaultName) {
         $.ajax({
             method: "get",
             url: "api/brand/check_name.php",
@@ -112,7 +113,7 @@ function checkEditName(name){
             $('#show_result').text(res.responseJSON['message']).css('color', 'red');
             $('#name').val("").focus();
         });
-    }else{
+    } else {
         $('#show_result').text("");
         return;
     }

@@ -71,8 +71,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <table id="dataTable" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
+                                                <th>ลำดับ</th>
                                                 <th>สร้างเมื่อ</th>
-                                                <th>รหัส</th>
                                                 <th>โค้ด</th>
                                                 <th>ประเภท</th>
                                                 <th>มูลค่า</th>

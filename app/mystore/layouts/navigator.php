@@ -127,7 +127,7 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 25);
                     <a href="#" class="nav-link <?= ($current_file == 'product_type.php' || $current_file == 'brand.php' || $current_file == 'product.php') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-gamepad"></i>
                         <p>
-                            สินค้าภายในร้าน
+                            จัดการสินค้า
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>

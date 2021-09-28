@@ -3,7 +3,6 @@ session_start();
 require_once('app/api/connect.php');
 require_once('app/api/mystore.php');
 
-session_start();
 if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME'])) {
     header("location:index.php");
 }
@@ -21,11 +20,11 @@ if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!-- Site Metas -->
 
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="keywords" content="<?= $store->st_keywords ?>" />
+    <meta name="description" content="<?= $store->st_description ?>" />
+    <meta name="author" content="<?= $store->st_author ?>" />
 
-    <title>ลงทะเบียน</title>
+    <title>ลงทะเบียน | <?= $store->st_name ?></title>
 
     <?php require_once('layouts/head.php'); ?>
 </head>
@@ -69,6 +68,10 @@ if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME
                             </select>
                         </div>
                         <div class="form-group">
+                            <label>เบอร์โทร</label>
+                            <input type="text" class="form-control" name="phone">
+                        </div>
+                        <div class="form-group">
                             <label>ชื่อผู้ใช้งาน</label>
                             <input type="text" class="form-control" name="username" id="inputUsername" onchange="checkUsername(event.target.value)">
                         </div>
@@ -86,7 +89,8 @@ if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="acceptCheck" id="acceptCheck">
                                 <label class="form-check-label">
-                                    ยอมรับ ข้อกำหนดเงื่อนไข และ นโยบายส่วนบุคคล
+                                    ยอมรับ <a target="_blank" href="term-conditions.php">ข้อกำหนดเงื่อนไข</a> และ 
+                                    <a target="_blank" href="privacy-policy.php">นโยบายส่วนบุคคล</a>
                                 </label>
                             </div>
                             <button type="button" class="btn btn-success" onclick="submitRegister()">
@@ -95,7 +99,7 @@ if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME
                             </button>
 
                         </div>
-                        <a href="login.php">มีบัญชีอยู่แล้ว?</a>
+                        <a href="login.php">มีบัญชีอยู่แล้ว? เข้าสู่ระบบที่นี่</a>
                     </form>
                 </div>
             </div>

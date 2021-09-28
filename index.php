@@ -19,7 +19,7 @@ require_once('app/api/myproducts.php');
   <meta name="description" content="<?= $store->st_description ?>" />
   <meta name="author" content="<?= $store->st_author ?>" />
 
-  <title>Minics</title>
+  <title>ยินดีต้อนรับ <?= $store->st_name ?></title>
 
   <?php require_once('layouts/head.php'); ?>
 </head>

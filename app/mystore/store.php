@@ -90,7 +90,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
 
                                         <div class="form-group">
-                                            <label>โลโก้ (เฉพาะไฟล์ .png .jpg .jpeg เท่านั้น!)</label><br>
+                                            <label>โลโก้ร้าน</label><br>
                                             <img class="img-size-64 mb-3" id="preview_logo">
                                             <input type="file" class="form-control" name="logo" accept="image/*" onchange="readFile(event)">
                                             <input type="text" class="form-control" name="old_logo" id="old_logo" readonly hidden>

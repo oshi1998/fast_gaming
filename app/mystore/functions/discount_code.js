@@ -10,12 +10,13 @@ function read() {
         let data = res.data;
 
         let data_table;
+        let no = 1;
 
         data.forEach(element => {
             data_table += `
                 <tr>
+                    <td>${no++}</td>
                     <td>${element['dc_created']}</td>
-                    <td>${element['dc_id']}</td>
                     <td>${element['dc_code']}</td>
                     <td>${element['dc_type']}</td>
                     <td>${element['dc_value']}</td>
@@ -39,7 +40,7 @@ function read() {
             "lengthChange": true,
             "searching": true,
             "ordering": true,
-            "order": [[0, "desc"]],
+            "order": [[0, "asc"]],
             "info": true,
             "autoWidth": false,
             "responsive": true,

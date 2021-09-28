@@ -10,12 +10,13 @@ function read() {
         let data = res.data;
 
         let data_table;
+        let no=1;
 
         data.forEach(element => {
             data_table += `
                 <tr>
+                    <td>${no++}</td>
                     <td>${element['pt_created']}</td>
-                    <td>${element['pt_id']}</td>
                     <td>${element['pt_name']}</td>
                     <td>
                         <button class="btn btn-primary" onclick="edit('${element['pt_id']}')">
@@ -37,7 +38,7 @@ function read() {
             "lengthChange": true,
             "searching": true,
             "ordering": true,
-            "order": [[0, "desc"]],
+            "order": [[0, "asc"]],
             "info": true,
             "autoWidth": false,
             "responsive": true,

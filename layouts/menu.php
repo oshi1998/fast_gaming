@@ -28,13 +28,13 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 13);
                 </from>
                 <?php if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME'])) : ?>
                     <div class="user_option_box">
-                        <a href="" class="account-link">
+                        <a href="myaccount.php" class="account-link">
                             <i class="fa fa-user" aria-hidden="true"></i>
                             <span>
                                 บัญชีของฉัน
                             </span>
                         </a>
-                        <a href="" class="cart-link">
+                        <a href="mycart.php" class="cart-link">
                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             <span>
                                 ตะกร้าสินค้า
@@ -79,8 +79,7 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 13);
                                     สวัสดี, <?= $_SESSION['CUSTOMER_USERNAME'] ?>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">บัญชีของฉัน</a>
-                                    <a class="dropdown-item" href="#">ประวัติการซื้อ</a>
+                                    <a class="dropdown-item" href="myaccount.php">บัญชีของฉัน</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="javascript:void(0)" onclick="logout()">ออกจากระบบ</a>
                                 </div>

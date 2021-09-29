@@ -1,5 +1,7 @@
 <link rel="icon" href="app/images/<?= $store->st_logo ?>"/>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <!-- bootstrap core css -->
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 

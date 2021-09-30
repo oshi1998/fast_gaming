@@ -141,7 +141,7 @@ require_once('app/api/myproducts.php');
                 <img src="app/images/products/<?= $product['pro_img'] ?>" alt="<?= $product['pro_detail'] ?>">
                 <a href="javascript:void(0)" class="add_cart_btn" onclick="addCart('<?= $product['pro_id'] ?>')">
                   <span>
-                    เพิ่มลงตะกร้า
+                    ซื้อสินค้า
                   </span>
                 </a>
               </div>

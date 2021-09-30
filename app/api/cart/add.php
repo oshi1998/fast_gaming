@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             'PRO_NAME' => $row->pro_name,
             'PRO_PRICE' => $row->pro_price,
             'PRO_AMOUNT' => 1,
+            'PRO_QTY' => $row->pro_qty,
             'PRO_TOTAL' => $row->pro_price,
         );
     }

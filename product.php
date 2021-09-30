@@ -48,20 +48,22 @@ require_once('app/api/myproducts.php');
           <div class="col-sm-6 col-lg-4">
             <div class="box">
               <div class="img-box">
-                <img src="app/images/products/<?= $product['pro_img'] ?>" alt="">
-                <a href="javasript:void(0)" class="add_cart_btn">
+                <img src="app/images/products/<?= $product['pro_img'] ?>" alt="<?= $product['pro_detail'] ?>">
+                <a href="javascript:void(0)" class="add_cart_btn" onclick="addCart('<?= $product['pro_id'] ?>')">
                   <span>
-                    เพิ่มลงตะกร้า
+                    ซื้อสินค้า
                   </span>
                 </a>
               </div>
               <div class="detail-box">
-                <h5>
-                  <?= $product['pro_name'] ?>
-                </h5>
+                <a href="product_detail.php?id=<?= $product['pro_id'] ?>">
+                  <h5>
+                    <?= $product['pro_name'] ?>
+                  </h5>
+                </a>
                 <div class="product_info">
                   <h5>
-                    <span>ราคา:</span> <?= number_format($product['pro_price']) ?>
+                    <span>ราคา:</span> <?= number_format($product['pro_price'], 2) ?> บาท
                   </h5>
                   <div class="star_container">
                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -84,7 +86,7 @@ require_once('app/api/myproducts.php');
 
   <?php require_once('layouts/footer.php'); ?>
 
-
+  <script src="app/functions/cart.js"></script>
 </body>
 
 </html>

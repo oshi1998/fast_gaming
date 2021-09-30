@@ -3,7 +3,6 @@ session_start();
 require_once('app/api/connect.php');
 require_once('app/api/mystore.php');
 
-//unset($_SESSION['MYCART']);
 if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME'])) {
     header("location:login.php");
 }
@@ -67,11 +66,14 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $cart['PRO_NAME'] ?></td>
-                                            <td><?= $cart['PRO_PRICE'] ?></td>
-                                            <td><?= $cart['PRO_AMOUNT'] ?></td>
-                                            <td><?= number_format($cart['PRO_TOTAL'],2) ?></td>
+                                            <td><?= number_format($cart['PRO_PRICE'], 2) ?></td>
                                             <td>
-                                                <button class="btn btn-danger">
+                                                <input type="number" class="form-control" value="<?= $cart['PRO_AMOUNT'] ?>" id="<?= $id ?>" onmouseover="setDefaultAmount(<?= $cart['PRO_AMOUNT'] ?>)" onchange="updateAmount(event.target.value,'<?= $id ?>',<?= $cart['PRO_QTY'] ?>)">
+                                                <p>(คงเหลือ : <?= $cart['PRO_QTY'] ?> ชิ้น)</p>
+                                            </td>
+                                            <td><?= number_format($cart['PRO_TOTAL'], 2) ?></td>
+                                            <td>
+                                                <button class="btn btn-danger" onclick="removeCart('<?= $id ?>')">
                                                     <i class="fa fa-trash"></i>
                                                     <span>ลบ</span>
                                                 </button>
@@ -85,10 +87,23 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                         <td></td>
                                         <td></td>
                                         <th>รวมทั้งหมด</th>
-                                        <th><?= number_format($_SESSION['CART_TOTAL'],2) ?></th>
+                                        <th><?= number_format($_SESSION['CART_TOTAL'], 2) ?></th>
+                                        <td></td>
                                     </tr>
                                 </tfoot>
                             </table>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">โค้ดส่วนลด</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" placeholder="ใส่โค้ดส่วนลดของคุณตรงนี้">
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success">ใช้โค้ด</button>
+                                </div>
+                            </div>
                         </div>
                     <?php endif ?>
                 </div>
@@ -107,7 +122,7 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
 
     <?php require_once('layouts/footer.php'); ?>
 
-
+    <script src="app/functions/cart.js"></script>
 </body>
 
 </html>

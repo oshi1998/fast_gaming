@@ -26,11 +26,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
     $cart_total = 0;
+
     foreach ($_SESSION['MYCART'] as $keys => $cart) {
         $cart_total += $cart['PRO_TOTAL'];
     }
 
+    if(!isset($_SESSION['CART_SHIPPING']) && empty($_SESSION['CART_SHIPPING'])){
+        $_SESSION['CART_SHIPPING'] = 0;
+    }
+
+    if(!isset($_SESSION['CART_DISCOUNT']) && empty($_SESSION['CART_DISCOUNT'])){
+        $_SESSION['CART_DISCOUNT'] = 0;
+    }
+
+    if(!isset($_SESSION['CART_PAYMENT_METHOD']) && empty($_SESSION['CART_PAYMENT_METHOD'])){
+        $_SESSION['CART_PAYMENT_METHOD'] = "โอน/ชำระผ่านบัญชีธนาคาร";
+    }
+
     $_SESSION['CART_TOTAL'] = $cart_total;
+    $_SESSION['CART_NET'] = $_SESSION['CART_TOTAL']+$_SESSION['CART_SHIPPING'];
+    $_SESSION['CART_NET'] -= $_SESSION['CART_DISCOUNT'];
 
     http_response_code(200);
     echo json_encode(['message' => "เพิ่มสินค้าลงตระกร้าสำเร็จ"]);

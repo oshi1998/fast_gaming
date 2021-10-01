@@ -7,15 +7,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     session_start();
 
     if (isset($_SESSION['MYCART'][$_POST['pro_id']])) {
+
         $_SESSION['MYCART'][$_POST['pro_id']]['PRO_AMOUNT'] = $_POST['amount'];
-        $_SESSION['MYCART'][$_POST['pro_id']]['PRO_TOTAL'] = $_SESSION['MYCART'][$_POST['pro_id']]['PRO_PRICE']*$_POST['amount'];
+        $_SESSION['MYCART'][$_POST['pro_id']]['PRO_TOTAL'] = $_SESSION['MYCART'][$_POST['pro_id']]['PRO_PRICE'] * $_POST['amount'];
 
         $cart_total = 0;
         foreach ($_SESSION['MYCART'] as $keys => $cart) {
             $cart_total += $cart['PRO_TOTAL'];
         }
 
+        if (!isset($_SESSION['CART_SHIPPING']) && empty($_SESSION['CART_SHIPPING'])) {
+            $_SESSION['CART_SHIPPING'] = 0;
+        }
+
         $_SESSION['CART_TOTAL'] = $cart_total;
+        $_SESSION['CART_NET'] = $_SESSION['CART_TOTAL'] + $_SESSION['CART_SHIPPING'];
 
         http_response_code(200);
         echo json_encode(['message' => "อัพเดตตะกร้าสินค้าสำเร็จ"]);

@@ -5,6 +5,8 @@ require_once('app/api/mystore.php');
 
 if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME'])) {
     header("location:login.php");
+} else {
+    require_once('app/api/shipping.php');
 }
 ?>
 
@@ -28,7 +30,7 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
     <?php require_once('layouts/head.php'); ?>
 </head>
 
-<body class="sub_page">
+<body class="sub_page" onload="checkShipping(),checkDC(),checkPaymentMethod()">
 
     <div class="hero_area">
         <!-- header section strats -->
@@ -86,24 +88,72 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <th>รวมทั้งหมด</th>
+                                        <th>ค่าสินค้าทั้งหมด</th>
                                         <th><?= number_format($_SESSION['CART_TOTAL'], 2) ?></th>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <select class="form-control" id="shipping" onchange="updateShipping(event.target.value)">
+                                                <option value="" selected disabled>----- เลือกการจัดส่ง -----</option>
+                                                <?php foreach ($shipping as $ship) { ?>
+                                                    <option value="<?= $ship['shp_id'] ?>"><?= $ship['shp_name'] . " (" . $ship['shp_cost'] . " บาท)" ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <th>ค่าส่ง</th>
+                                        <th><?= number_format($_SESSION['CART_SHIPPING'], 2) ?></th>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>โค้ดส่วนลด</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="code" placeholder="ใส่โค้ดส่วนลดของคุณตรงนี้ หากมี">
+                                        </td>
+                                        <td>
+                                            <?php if (!isset($_SESSION['CART_DISCOUNT_CODE']) && empty($_SESSION['CART_DISCOUNT_CODE'])) : ?>
+                                                <button class="btn btn-primary" onclick="usingDC()">ใช้โค้ด</button>
+                                            <?php else : ?>
+                                                <button class="btn btn-danger" onclick="cancelDC()">ยกเลิก</button>
+                                            <?php endif ?>
+                                        </td>
+                                        <th>ส่วนลด</th>
+                                        <th><?= number_format($_SESSION['CART_DISCOUNT'], 2) ?></th>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>วิธีการชำระเงิน</td>
+                                        <td>
+                                            <select class="form-control" id="payment_method" onchange="updatePaymentMethod(event.target.value)">
+                                                <option value="โอน/ชำระผ่านบัญชีธนาคาร">โอน/ชำระผ่านบัญชีธนาคาร</option>
+                                                <option value="เก็บเงินปลายทาง">เก็บเงินปลายทาง</option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <th></th>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <th>รวมทั้งสิ้น</th>
+                                        <th><?= number_format($_SESSION['CART_NET'], 2) ?></th>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><button class="btn btn-success" onclick="checkbill()">ทำการสั่งซื้อ</button></td>
                                         <td></td>
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">โค้ดส่วนลด</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" placeholder="ใส่โค้ดส่วนลดของคุณตรงนี้">
-                                </div>
-                                <div class="col-3">
-                                    <button class="btn btn-success">ใช้โค้ด</button>
-                                </div>
-                            </div>
                         </div>
                     <?php endif ?>
                 </div>

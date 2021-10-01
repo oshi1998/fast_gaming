@@ -1,9 +1,7 @@
-var defaultName = "";
-
 function read() {
     $.ajax({
         method: "post",
-        url: "api/brand/read.php"
+        url: "api/bank/read.php"
     }).done(function (res) {
         console.log(res);
 
@@ -16,14 +14,16 @@ function read() {
             data_table += `
                 <tr>
                     <td>${no++}</td>
-                    <td>${element['brand_created']}</td>
-                    <td>${element['brand_name']}</td>
+                    <td>${element['bank_created']}</td>
+                    <td>${element['bank_name']}</td>
+                    <td>${element['bank_acc_number']}</td>
+                    <td>${element['bank_acc_name']}</td>
                     <td>
-                        <button class="btn btn-primary" onclick="edit('${element['brand_id']}')">
+                        <button class="btn btn-primary" onclick="edit('${element['bank_id']}')">
                             <i class="fas fa-edit"></i>
                             <span>แก้ไข</span>
                         </button>
-                        <button class="btn btn-danger" onclick="deleteData('${element['brand_id']}')">
+                        <button class="btn btn-danger" onclick="deleteData('${element['bank_id']}')">
                             <i class="fas fa-trash"></i>
                             <span>ลบ</span>
                         </button>
@@ -57,8 +57,18 @@ function add() {
     <form id="createForm">
 
     <div class="form-group">
-        <label>ชื่อยี่ห้อ</label> <strong id="show_result"></strong>
-        <input type="text" class="form-control" name="name" id="name" onchange="checkName(event.target.value)">
+        <label>ชื่อธนาคาร</label>
+        <input type="text" class="form-control" name="bank_name">
+    </div>
+
+    <div class="form-group">
+        <label>เลขบัญชี</label>
+        <input type="text" class="form-control" name="acc_number">
+    </div>
+
+    <div class="form-group">
+        <label>ชื่อบัญชี</label>
+        <input type="text" class="form-control" name="acc_name">
     </div>
 
     <div class="modal-footer">
@@ -70,59 +80,15 @@ function add() {
 </form>
     `;
 
-    $('#myModalLabel').text('เพิ่มข้อมูลยี่ห้อ');
+    $('#myModalLabel').text('เพิ่มข้อมูลบัญชีธนาคาร');
     $('#myModalBody').html(form);
     $('#myModal').modal('show');
-}
-
-function setDefaultName(name) {
-    defaultName = name;
-    console.log(defaultName);
-}
-
-function checkName(name) {
-    $.ajax({
-        method: "get",
-        url: "api/brand/check_name.php",
-        data: {
-            "name": name
-        }
-    }).done(function (res) {
-        $('#show_result').text(res.message).css('color', 'green');
-    }).fail(function (res) {
-        $('#show_result').text(res.responseJSON['message']).css('color', 'red');
-        $('#name').val("").focus();
-    });
-}
-
-function checkEditName(name) {
-
-    console.log("Edit Name = " + name);
-    console.log("Default Name = " + defaultName);
-
-    if (name != defaultName) {
-        $.ajax({
-            method: "get",
-            url: "api/brand/check_name.php",
-            data: {
-                "name": name
-            }
-        }).done(function (res) {
-            $('#show_result').text(res.message).css('color', 'green');
-        }).fail(function (res) {
-            $('#show_result').text(res.responseJSON['message']).css('color', 'red');
-            $('#name').val("").focus();
-        });
-    } else {
-        $('#show_result').text("");
-        return;
-    }
 }
 
 function create() {
     $.ajax({
         method: "post",
-        url: "api/brand/create.php",
+        url: "api/bank/create.php",
         data: $('#createForm').serialize()
     }).done(function (res) {
         console.log(res);
@@ -148,7 +114,7 @@ function edit(id) {
 
     $.ajax({
         method: "get",
-        url: "api/brand/readById.php",
+        url: "api/bank/readById.php",
         data: {
             "id": id
         },
@@ -160,13 +126,23 @@ function edit(id) {
         <form id="updateForm">
 
             <div class="form-group">
-                <label>รหัสยี่ห้อ</label>
+                <label>รหัส</label>
                 <input type="text" class="form-control" name="id" id="id" value="${id}" readonly>
             </div>
 
             <div class="form-group">
-                <label>ชื่อยี่ห้อ</label> <strog id="show_result"></strog>
-                <input type="text" class="form-control" name="name" id="name" value="${data['brand_name']}" onclick="setDefaultName('${data['brand_name']}')"  onchange="checkEditName(event.target.value)">
+                <label>ชื่อธนาคาร</label>
+                <input type="text" class="form-control" name="bank_name" value="${data['bank_name']}">
+            </div>
+
+            <div class="form-group">
+                <label>เลขบัญชี</label>
+                <input type="text" class="form-control" name="acc_number" value="${data['bank_acc_number']}">
+            </div>
+
+            <div class="form-group">
+                <label>ชื่อบัญชี</label>
+                <input type="text" class="form-control" name="acc_name" value="${data['bank_acc_name']}">
             </div>
     
         <div class="modal-footer">
@@ -193,7 +169,7 @@ function edit(id) {
 function update() {
     $.ajax({
         method: "post",
-        url: "api/brand/update.php",
+        url: "api/bank/update.php",
         data: $('#updateForm').serialize()
     }).done(function (res) {
         console.log(res);
@@ -215,7 +191,7 @@ function update() {
 
 function deleteData(id) {
     swal({
-        title: "ยืนยันการลบยี่ห้อรหัส " + id + "?",
+        title: "ยืนยันการลบรหัส " + id + "?",
         text: "หากดำเนินการไปแล้ว จะไม่สามารถกู้คืนได้",
         icon: "warning",
         buttons: true,
@@ -224,7 +200,7 @@ function deleteData(id) {
         if (willDelete) {
             $.ajax({
                 type: "get",
-                url: "api/brand/delete.php",
+                url: "api/bank/delete.php",
                 data: {
                     "id": id
                 }

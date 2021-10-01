@@ -116,10 +116,26 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 25);
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="bank.php" class="nav-link <?= ($current_file == 'bank.php') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-money-bill"></i>
+                        <p>
+                            บัญชีธนาคาร
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="discount_code.php" class="nav-link <?= ($current_file == 'discount_code.php') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-code"></i>
                         <p>
                             โค้ดส่วนลด
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="shipping.php" class="nav-link <?= ($current_file == 'shipping.php') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-truck"></i>
+                        <p>
+                            การจัดส่ง & ค่าส่ง
                         </p>
                     </a>
                 </li>

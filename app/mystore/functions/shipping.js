@@ -3,7 +3,7 @@ var defaultName = "";
 function read() {
     $.ajax({
         method: "post",
-        url: "api/brand/read.php"
+        url: "api/shipping/read.php"
     }).done(function (res) {
         console.log(res);
 
@@ -16,14 +16,15 @@ function read() {
             data_table += `
                 <tr>
                     <td>${no++}</td>
-                    <td>${element['brand_created']}</td>
-                    <td>${element['brand_name']}</td>
+                    <td>${element['shp_created']}</td>
+                    <td>${element['shp_name']}</td>
+                    <td>${element['shp_cost']}</td>
                     <td>
-                        <button class="btn btn-primary" onclick="edit('${element['brand_id']}')">
+                        <button class="btn btn-primary" onclick="edit('${element['shp_id']}')">
                             <i class="fas fa-edit"></i>
                             <span>แก้ไข</span>
                         </button>
-                        <button class="btn btn-danger" onclick="deleteData('${element['brand_id']}')">
+                        <button class="btn btn-danger" onclick="deleteData('${element['shp_id']}')">
                             <i class="fas fa-trash"></i>
                             <span>ลบ</span>
                         </button>
@@ -57,8 +58,13 @@ function add() {
     <form id="createForm">
 
     <div class="form-group">
-        <label>ชื่อยี่ห้อ</label> <strong id="show_result"></strong>
+        <label>ชื่อประเภทการจัดส่ง</label> <strong id="show_result"></strong>
         <input type="text" class="form-control" name="name" id="name" onchange="checkName(event.target.value)">
+    </div>
+
+    <div class="form-group">
+        <label>ค่าส่ง</label>
+        <input type="number" class="form-control" name="cost">
     </div>
 
     <div class="modal-footer">
@@ -70,7 +76,7 @@ function add() {
 </form>
     `;
 
-    $('#myModalLabel').text('เพิ่มข้อมูลยี่ห้อ');
+    $('#myModalLabel').text('เพิ่มข้อมูลการจัดส่ง');
     $('#myModalBody').html(form);
     $('#myModal').modal('show');
 }
@@ -83,7 +89,7 @@ function setDefaultName(name) {
 function checkName(name) {
     $.ajax({
         method: "get",
-        url: "api/brand/check_name.php",
+        url: "api/shipping/check_name.php",
         data: {
             "name": name
         }
@@ -103,7 +109,7 @@ function checkEditName(name) {
     if (name != defaultName) {
         $.ajax({
             method: "get",
-            url: "api/brand/check_name.php",
+            url: "api/shipping/check_name.php",
             data: {
                 "name": name
             }
@@ -122,7 +128,7 @@ function checkEditName(name) {
 function create() {
     $.ajax({
         method: "post",
-        url: "api/brand/create.php",
+        url: "api/shipping/create.php",
         data: $('#createForm').serialize()
     }).done(function (res) {
         console.log(res);
@@ -148,7 +154,7 @@ function edit(id) {
 
     $.ajax({
         method: "get",
-        url: "api/brand/readById.php",
+        url: "api/shipping/readById.php",
         data: {
             "id": id
         },
@@ -160,13 +166,18 @@ function edit(id) {
         <form id="updateForm">
 
             <div class="form-group">
-                <label>รหัสยี่ห้อ</label>
+                <label>รหัสการจัดส่ง</label>
                 <input type="text" class="form-control" name="id" id="id" value="${id}" readonly>
             </div>
 
             <div class="form-group">
-                <label>ชื่อยี่ห้อ</label> <strog id="show_result"></strog>
-                <input type="text" class="form-control" name="name" id="name" value="${data['brand_name']}" onclick="setDefaultName('${data['brand_name']}')"  onchange="checkEditName(event.target.value)">
+                <label>ชื่อประเภทการจัดส่ง</label> <strog id="show_result"></strog>
+                <input type="text" class="form-control" name="name" id="name" value="${data['shp_name']}" onclick="setDefaultName('${data['brand_name']}')"  onchange="checkEditName(event.target.value)">
+            </div>
+
+            <div class="form-group">
+                <label>ค่าส่ง</label>
+                <input type="number" class="form-control" name="cost" value="${data['shp_cost']}">
             </div>
     
         <div class="modal-footer">
@@ -193,7 +204,7 @@ function edit(id) {
 function update() {
     $.ajax({
         method: "post",
-        url: "api/brand/update.php",
+        url: "api/shipping/update.php",
         data: $('#updateForm').serialize()
     }).done(function (res) {
         console.log(res);
@@ -215,7 +226,7 @@ function update() {
 
 function deleteData(id) {
     swal({
-        title: "ยืนยันการลบยี่ห้อรหัส " + id + "?",
+        title: "ยืนยันการลบการจัดส่งรหัส " + id + "?",
         text: "หากดำเนินการไปแล้ว จะไม่สามารถกู้คืนได้",
         icon: "warning",
         buttons: true,
@@ -224,7 +235,7 @@ function deleteData(id) {
         if (willDelete) {
             $.ajax({
                 type: "get",
-                url: "api/brand/delete.php",
+                url: "api/shipping/delete.php",
                 data: {
                     "id": id
                 }

@@ -57,7 +57,7 @@ function add() {
     <form id="createForm">
 
     <div class="form-group">
-        <label>ชื่อประเภท</label> <strog id="show_result"></strog>
+        <label>ชื่อประเภท</label> <strong id="show_result"></strong>
         <input type="text" class="form-control" name="name" id="name" onchange="checkName(event.target.value)">
     </div>
 

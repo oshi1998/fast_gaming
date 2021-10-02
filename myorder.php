@@ -73,7 +73,9 @@ if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME
                 <h2>
                     รหัสสั่งซื้อ : <?= $od->od_id ?>
                 </h2>
-                <h3>สถานะ : <?= $od->od_status ?></p>
+                <h3>
+                    สถานะ : <?= $od->od_status ?>
+                </h3>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -146,51 +148,74 @@ if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME
                                 <h3>แบบฟอร์มชำระเงิน</h3>
                             </div>
                             <div class="card-body">
-                                <div class="form-group">
-                                    <label>โอนเข้าบัญชี</label>
-                                    <select class="form-control">
-                                        <option value="" selected disabled>---- เลือกบัญชีธนาคาร ----</option>
-                                        <?php foreach ($banks as $bank) { ?>
-                                            <option value="<?= $bank['bank_id'] ?>"><?= $bank['bank_name'] ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>ธนาคารผู้รับโอน</label>
-                                    <input type="text" class="form-control" name="re_bank" id="re_bank" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label>เลขบัญชีผู้รับโอน</label>
-                                    <input type="text" class="form-control" name="re_acc_number" id="re_acc_number" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label>ชื่อบัญชีผู้รับโอน</label>
-                                    <input type="text" class="form-control" name="re_acc_name" id="re_acc_name" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label>ธนาคารผู้โอน</label>
-                                    <input type="text" class="form-control" name="transfer_bank">
-                                </div>
-                                <div class="form-group">
-                                    <label>เลขบัญชีผู้โอน</label>
-                                    <input type="text" class="form-control" name="transfer_acc_number">
-                                </div>
-                                <div class="form-group">
-                                    <label>ชื่อบัญชีผู้โอน</label>
-                                    <input type="text" class="form-control" name="transfer_acc_name">
-                                </div>
-                                <div class="form-group">
-                                    <label>ยอดชำระ</label>
-                                    <input type="number" class="form-control" name="amount" value="<?= $od->od_total ?>" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label>เวลาที่ทำการโอน (ตามสลิป)</label>
-                                    <input type="datetime-local" class="form-control" name="transfer_datetime">
-                                </div>
-                                <div class="form-group">
-                                    <label>อัพโหลดสลิป (*จำเป็น)</label>
-                                    <input type="file" class="form-control" name="slip" accept="image/*">
-                                </div>
+                                <form id="transactionForm">
+                                    <div class="form-group">
+                                        <label>รหัสรายการสั่งซื้อ</label>
+                                        <input type="text" class="form-control" name="od_id" value="<?= $od->od_id ?>" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>โอนเข้าบัญชี</label>
+                                        <select class="form-control" onchange="chooseBank(event.target.value)">
+                                            <option value="" selected disabled>---- เลือกบัญชีธนาคาร ----</option>
+                                            <?php foreach ($banks as $bank) { ?>
+                                                <option value="<?= $bank['bank_id'] ?>"><?= $bank['bank_name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>ธนาคารผู้รับโอน</label>
+                                        <input type="text" class="form-control" name="re_bank" id="re_bank" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>เลขบัญชีผู้รับโอน</label>
+                                        <input type="text" class="form-control" name="re_acc_number" id="re_acc_number" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>ชื่อบัญชีผู้รับโอน</label>
+                                        <input type="text" class="form-control" name="re_acc_name" id="re_acc_name" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>ธนาคารผู้โอน</label>
+                                        <select class="form-control" name="transfer_bank">
+                                            <option value="" selected disabled>---- เลือกธนาคาร ----</option>
+                                            <option value="ธนาคารไทยพาณิชย์">ธนาคารไทยพาณิชย์</option>
+                                            <option value="ธนาคารกสิกรไทย">ธนาคารกสิกรไทย</option>
+                                            <option value="ธนาคารกรุงไทย">ธนาคารกรุงไทย</option>
+                                            <option value="ธนาคารกรุงเทพ">ธนาคารกรุงเทพ</option>
+                                            <option value="ธนาคารกรุงศรีอยุธยา">ธนาคารกรุงศรีอยุธยา</option>
+                                            <option value="ธนาคารออมสิน">ธนาคารออมสิน</option>
+                                            <option value="ธนาคารทหารไทย">ธนาคารทหารไทย</option>
+                                            <option value="ธนาคารธนชาต">ธนาคารธนชาต</option>
+                                            <option value="ธนาคารธกส">ธนาคารธกส</option>
+                                            <option value="ธนาคารยูโอบี">ธนาคารยูโอบี</option>
+                                            <option value="ธนาคารซีไอเอ็มบีไทย">ธนาคารซีไอเอ็มบีไทย</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>เลขบัญชีผู้โอน</label>
+                                        <input type="text" class="form-control" name="transfer_acc_number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>ชื่อบัญชีผู้โอน</label>
+                                        <input type="text" class="form-control" name="transfer_acc_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>ยอดชำระ</label>
+                                        <input type="number" class="form-control" name="amount" value="<?= $od->od_total ?>" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>เวลาที่ทำการโอน (ตามสลิป)</label>
+                                        <input type="datetime-local" class="form-control" name="transfer_datetime">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>อัพโหลดสลิป (*จำเป็น)</label>
+                                        <input type="file" class="form-control" name="slip" accept="image/*">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-success float-right" onclick="submitTransaction()">ชำระเงิน</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -203,7 +228,7 @@ if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME
 
     <?php require_once('layouts/footer.php'); ?>
 
-
+    <script src="app/functions/myorder.js"></script>
 </body>
 
 </html>

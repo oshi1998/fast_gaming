@@ -11,26 +11,41 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         if (!isset($_SESSION['CART_DISCOUNT_CODE']) && empty($_SESSION['CART_DISCOUNT_CODE'])) {
 
-            $sql = "SELECT * FROM discount_codes WHERE dc_code=?";
+
+            // เช็คว่า User ใช้โค้ดไปแล้วหรือยัง
+            $sql = "SELECT * FROM using_dc,discount_codes WHERE using_dc.use_dc_code=discount_codes.dc_code AND use_od_id is not null AND use_cus_username=? AND use_dc_code=?";
             $stmt = $pdo->prepare($sql);
-            $result = $stmt->execute([$_POST['code']]);
+            $stmt->execute([$_SESSION['CUSTOMER_USERNAME'], $_POST['code']]);
+            $dc = $stmt->fetchAll();
 
-            if ($result) {
-                $row = $stmt->fetchObject();
+            if (empty($dc)) {
+                $sql = "SELECT * FROM discount_codes WHERE dc_code=?";
+                $stmt = $pdo->prepare($sql);
+                $result = $stmt->execute([$_POST['code']]);
 
-                if (!empty($row)) {
+                if ($result) {
+                    $row = $stmt->fetchObject();
 
-                    $_SESSION['CART_DISCOUNT'] = $row->dc_value;
-                    $_SESSION['CART_DISCOUNT_CODE'] = $row->dc_code;
+                    if (!empty($row)) {
+                        
+                        $_SESSION['CART_DISCOUNT'] = $row->dc_value;
+                        $_SESSION['CART_DISCOUNT_CODE'] = $row->dc_code;
 
-                    if ($row->dc_type == "ส่วนลดเงินสด") {
-                        $_SESSION['CART_NET'] -= floatval($_SESSION['CART_DISCOUNT']);
+                        if ($row->dc_type == "ส่วนลดเงินสด") {
+
+                            $_SESSION['CART_NET'] -= floatval($_SESSION['CART_DISCOUNT']);
+                        } else {
+                            $_SESSION['CART_DISCOUNT'] = floatval($_SESSION['CART_NET']) * (floatval($_SESSION['CART_DISCOUNT'] / 100));
+                            $_SESSION['CART_NET'] -= $_SESSION['CART_DISCOUNT'];
+                        }
+
+                        http_response_code(200);
+                        echo json_encode(['message' => "ใช้โค้ดส่วนลดสำเร็จ"]);
                     } else {
-                        $_SESSION['CART_NET'] -= floatval($_SESSION['CART_NET']) * floatval($_SESSION['CART_DISCOUNT'] / 100);
+                        http_response_code(412);
+                        echo json_encode(['message' => "ค้นหาโค้ดไม่สำเร็จ"]);
+                        exit;
                     }
-
-                    http_response_code(200);
-                    echo json_encode(['message' => "ใช้โค้ดส่วนลดสำเร็จ"]);
                 } else {
                     http_response_code(412);
                     echo json_encode(['message' => "ค้นหาโค้ดไม่สำเร็จ"]);
@@ -38,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 }
             } else {
                 http_response_code(412);
-                echo json_encode(['message' => "ค้นหาโค้ดไม่สำเร็จ"]);
+                echo json_encode(['message' => "คุณได้ใช้โค้ดส่วนลด $_POST[code] ไปแล้ว"]);
                 exit;
             }
         } else {

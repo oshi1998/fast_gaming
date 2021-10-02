@@ -18,11 +18,35 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
     $stmt->execute([$cus]);
     $od1 = $stmt->fetchAll();
 
-    // รายการซื้อ สถานะ รอชำระเงิน
+    // รายการซื้อ สถานะ รอชำระเงิน/กำลังตรวจสอบหลักฐานการโอนเงิน
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ? OR od_status = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$cus, "รอชำระเงิน", "กำลังตรวจสอบหลักฐานการโอนเงิน"]);
+    $od2 = $stmt->fetchAll();
+
+    // รายการซื้อ สถานะ เตรียมจัดส่งสินค้า
     $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$cus, "รอชำระเงิน"]);
-    $od2 = $stmt->fetchAll();
+    $stmt->execute([$cus, "เตรียมจัดส่งสินค้า"]);
+    $od3 = $stmt->fetchAll();
+
+    // รายการซื้อ สถานะ จัดส่งสินค้าเรียบร้อย
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$cus, "จัดส่งสินค้าเรียบร้อย"]);
+    $od4 = $stmt->fetchAll();
+
+    // รายการซื้อ สถานะ สำเร็จ
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$cus, "สำเร็จ"]);
+    $od5 = $stmt->fetchAll();
+
+    // รายการซื้อ สถานะ ยกเลิกแล้ว
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$cus, "ยกเลิกแล้ว"]);
+    $od6 = $stmt->fetchAll();
 
     // โค้ดส่วนลดที่ยังไม่ได้ใช้
     $sql = "SELECT * FROM using_dc,discount_codes WHERE using_dc.use_dc_code=discount_codes.dc_code AND use_od_id is null AND use_cus_username=?";
@@ -194,23 +218,23 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                     <a class="nav-link" id="pills-waitpay-tab" data-toggle="pill" href="#pills-waitpay" role="tab" aria-controls="pills-waitpay" aria-selected="false">รอชำระ (<?= count($od2) ?>)</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="pills-waitdelivery-tab" data-toggle="pill" href="#pills-waitdelivery" role="tab" aria-controls="pills-waitdelivery" aria-selected="false">รอจัดส่ง</a>
+                                    <a class="nav-link" id="pills-waitdelivery-tab" data-toggle="pill" href="#pills-waitdelivery" role="tab" aria-controls="pills-waitdelivery" aria-selected="false">รอจัดส่ง (<?= count($od3) ?>)</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="pills-waitreceive-tab" data-toggle="pill" href="#pills-waitreceive" role="tab" aria-controls="pills-waitreceive" aria-selected="false">รอรับของ</a>
+                                    <a class="nav-link" id="pills-waitreceive-tab" data-toggle="pill" href="#pills-waitreceive" role="tab" aria-controls="pills-waitreceive" aria-selected="false">รอรับของ (<?= count($od4) ?>)</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="pills-success-tab" data-toggle="pill" href="#pills-success" role="tab" aria-controls="pills-success" aria-selected="false">สำเร็จ</a>
+                                    <a class="nav-link" id="pills-success-tab" data-toggle="pill" href="#pills-success" role="tab" aria-controls="pills-success" aria-selected="false">สำเร็จ (<?= count($od5) ?>)</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="pills-cancel-tab" data-toggle="pill" href="#pills-cancel" role="tab" aria-controls="pills-cancel" aria-selected="false">ยกเลิก</a>
+                                    <a class="nav-link" id="pills-cancel-tab" data-toggle="pill" href="#pills-cancel" role="tab" aria-controls="pills-cancel" aria-selected="false">ยกเลิก (<?= count($od6) ?>)</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
                                     <?php if (count($od1) > 0) : ?>
                                         <?php foreach ($od1 as $od) { ?>
-                                            <div class="card">
+                                            <div class="card mb-3">
                                                 <div class="card-header d-flex justify-content-between">
                                                     <strong>ID: <?= $od['od_id'] ?></strong>
                                                     <strong>สถานะ: <?= $od['od_status'] ?></strong>
@@ -230,11 +254,124 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                         </div>
                                     <?php endif ?>
                                 </div>
-                                <div class="tab-pane fade" id="pills-waitpay" role="tabpanel" aria-labelledby="pills-waitpay-tab">...</div>
-                                <div class="tab-pane fade" id="pills-waitdelivery" role="tabpanel" aria-labelledby="pills-waitdelivery-tab">...</div>
-                                <div class="tab-pane fade" id="pills-waitreceive" role="tabpanel" aria-labelledby="pills-waitreceive-tab">...</div>
-                                <div class="tab-pane fade" id="pills-success" role="tabpanel" aria-labelledby="pills-success-tab">...</div>
-                                <div class="tab-pane fade" id="pills-cancel" role="tabpanel" aria-labelledby="pills-cancel-tab">...</div>
+                                <div class="tab-pane fade" id="pills-waitpay" role="tabpanel" aria-labelledby="pills-waitpay-tab">
+                                    <?php if (count($od2) > 0) : ?>
+                                        <?php foreach ($od2 as $od) { ?>
+                                            <div class="card mb-3">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <strong>ID: <?= $od['od_id'] ?></strong>
+                                                    <strong>สถานะ: <?= $od['od_status'] ?></strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <strong>ยอดคำสั่งซื้อทั้งหมด: <?= number_format($od['od_total'], 2) ?> บาท</strong>
+                                                </div>
+                                                <div class="card-footer d-flex justify-content-between">
+                                                    <?php if ($od['od_status'] == "รอชำระเงิน") : ?>
+                                                        <a href="myorder.php?id=<?= $od['od_id'] ?>" class="btn btn-success float-right">ชำระเงิน</a>
+                                                    <?php endif ?>
+                                                    <a href="myorder.php?id=<?= $od['od_id'] ?>" class="btn btn-info float-right">ดูคำสั่งซื้อ</a>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php else : ?>
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>ไม่มีข้อมูล!</strong> <br>
+                                            ลองเลือกสินค้าจากร้านเราได้ที่นี้ <a href="product.php">คลิก!</a>
+                                        </div>
+                                    <?php endif ?>
+                                </div>
+                                <div class="tab-pane fade" id="pills-waitdelivery" role="tabpanel" aria-labelledby="pills-waitdelivery-tab">
+                                    <?php if (count($od3) > 0) : ?>
+                                        <?php foreach ($od3 as $od) { ?>
+                                            <div class="card mb-3">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <strong>ID: <?= $od['od_id'] ?></strong>
+                                                    <strong>สถานะ: <?= $od['od_status'] ?></strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <strong>ยอดคำสั่งซื้อทั้งหมด: <?= number_format($od['od_total'], 2) ?> บาท</strong>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <a href="myorder.php?id=<?= $od['od_id'] ?>" class="btn btn-info float-right">ดูคำสั่งซื้อ</a>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php else : ?>
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>ไม่มีข้อมูล!</strong> <br>
+                                            ลองเลือกสินค้าจากร้านเราได้ที่นี้ <a href="product.php">คลิก!</a>
+                                        </div>
+                                    <?php endif ?>
+                                </div>
+                                <div class="tab-pane fade" id="pills-waitreceive" role="tabpanel" aria-labelledby="pills-waitreceive-tab">
+                                    <?php if (count($od4) > 0) : ?>
+                                        <?php foreach ($od4 as $od) { ?>
+                                            <div class="card mb-3">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <strong>ID: <?= $od['od_id'] ?></strong>
+                                                    <strong>สถานะ: <?= $od['od_status'] ?></strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <strong>ยอดคำสั่งซื้อทั้งหมด: <?= number_format($od['od_total'], 2) ?> บาท</strong>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <a href="myorder.php?id=<?= $od['od_id'] ?>" class="btn btn-info float-right">ดูคำสั่งซื้อ</a>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php else : ?>
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>ไม่มีข้อมูล!</strong> <br>
+                                            ลองเลือกสินค้าจากร้านเราได้ที่นี้ <a href="product.php">คลิก!</a>
+                                        </div>
+                                    <?php endif ?>
+                                </div>
+                                <div class="tab-pane fade" id="pills-success" role="tabpanel" aria-labelledby="pills-success-tab">
+                                    <?php if (count($od5) > 0) : ?>
+                                        <?php foreach ($od5 as $od) { ?>
+                                            <div class="card mb-3">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <strong>ID: <?= $od['od_id'] ?></strong>
+                                                    <strong>สถานะ: <?= $od['od_status'] ?></strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <strong>ยอดคำสั่งซื้อทั้งหมด: <?= number_format($od['od_total'], 2) ?> บาท</strong>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <a href="myorder.php?id=<?= $od['od_id'] ?>" class="btn btn-info float-right">ดูคำสั่งซื้อ</a>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php else : ?>
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>ไม่มีข้อมูล!</strong> <br>
+                                            ลองเลือกสินค้าจากร้านเราได้ที่นี้ <a href="product.php">คลิก!</a>
+                                        </div>
+                                    <?php endif ?>
+                                </div>
+                                <div class="tab-pane fade" id="pills-cancel" role="tabpanel" aria-labelledby="pills-cancel-tab">
+                                    <?php if (count($od6) > 0) : ?>
+                                        <?php foreach ($od6 as $od) { ?>
+                                            <div class="card mb-3">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <strong>ID: <?= $od['od_id'] ?></strong>
+                                                    <strong>สถานะ: <?= $od['od_status'] ?></strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <strong>ยอดคำสั่งซื้อทั้งหมด: <?= number_format($od['od_total'], 2) ?> บาท</strong>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <a href="myorder.php?id=<?= $od['od_id'] ?>" class="btn btn-info float-right">ดูคำสั่งซื้อ</a>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php else : ?>
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>ไม่มีข้อมูล!</strong> <br>
+                                            ลองเลือกสินค้าจากร้านเราได้ที่นี้ <a href="product.php">คลิก!</a>
+                                        </div>
+                                    <?php endif ?>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="v-pills-transaction" role="tabpanel" aria-labelledby="v-pills-transaction-tab">
@@ -266,7 +403,7 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                 <div class="tab-pane fade show active" id="pills-unused" role="tabpanel" aria-labelledby="pills-unused-tab">
                                     <?php if (count($dc1) > 0) : ?>
                                         <?php foreach ($dc1 as $dc) { ?>
-                                            <div class="card">
+                                            <div class="card mb-3">
                                                 <div class="card-header d-flex justify-content-between">
                                                     <strong>CODE: <?= $dc['dc_code'] ?></strong>
                                                     <strong>ประเภท: <?= $dc['dc_type'] ?></strong>
@@ -286,7 +423,7 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                 <div class="tab-pane fade" id="pills-used" role="tabpanel" aria-labelledby="pills-used-tab">
                                     <?php if (count($dc2) > 0) : ?>
                                         <?php foreach ($dc2 as $dc) { ?>
-                                            <div class="card">
+                                            <div class="card mb-3">
                                                 <div class="card-header d-flex justify-content-between">
                                                     <strong>CODE: <?= $dc['dc_code'] ?></strong>
                                                     <strong>ประเภท: <?= $dc['dc_type'] ?></strong>

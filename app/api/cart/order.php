@@ -8,6 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $od_id = "OD" . date("Ymd") . "-" . rand(1, 10) . rand(10, 99);
 
+    if($_SESSION['CART_PAYMENT_METHOD']=="เก็บเงินปลายทาง"){
+        $status = "เตรียมจัดส่งสินค้า";
+    }else{
+        $status = "รอชำระเงิน";
+    }
+
     $sql = "INSERT INTO orders (od_id,od_cus_username,od_amount,od_pro_total,od_shipping_cost,od_discount_cost,od_total,
     od_payment_method,od_status) VALUES (:id,:cus,:amount,:pro,:shipping,:discount,:total,:pm,:status)";
     $stmt = $pdo->prepare($sql);
@@ -20,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         'discount' => $_SESSION['CART_DISCOUNT'],
         'total' => $_SESSION['CART_NET'],
         'pm' => $_SESSION['CART_PAYMENT_METHOD'],
-        'status' => "รอชำระเงิน"
+        'status' => $status
     ]);
 
     if ($result) {
@@ -35,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             if ($result) {
 
-                $query = 0;
+                $query_odd = 0;
 
                 foreach ($_SESSION['MYCART'] as $id => $cart) {
                     $sql = "INSERT INTO order_details (odd_od_id,odd_pro_id,odd_amount) VALUES (:od_id,:pro_id,:amount)";
@@ -47,11 +53,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     ]);
 
                     if ($result) {
-                        $query++;
+                        $query_odd++;
                     }
                 }
 
-                if ($query == count($_SESSION['MYCART'])) {
+                $query_stock = 0;
+
+                foreach ($_SESSION['MYCART'] as $id => $cart) {
+                    $sql = "UPDATE products SET pro_qty=pro_qty-:amount WHERE pro_id=:id";
+                    $stmt = $pdo->prepare($sql);
+                    $result = $stmt->execute([
+                        'id' => $id,
+                        'amount' => $cart['PRO_AMOUNT']
+                    ]);
+
+                    if ($result) {
+                        $query_stock++;
+                    }
+                }
+
+                if ($query_odd == count($_SESSION['MYCART']) && $query_stock == count($_SESSION['MYCART'])) {
 
                     unset($_SESSION['MYCART']);
                     unset($_SESSION['CART_TOTAL']);

@@ -7,6 +7,34 @@ require_once('app/api/mystore.php');
 
 if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME'])) {
     header("location:login.php");
+} else {
+
+    //รับค่า Username
+    $cus = $_SESSION['CUSTOMER_USERNAME'];
+
+    // รายการซื้อทั้งหมด
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$cus]);
+    $od1 = $stmt->fetchAll();
+
+    // รายการซื้อ สถานะ รอชำระเงิน
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$cus, "รอชำระเงิน"]);
+    $od2 = $stmt->fetchAll();
+
+    // โค้ดส่วนลดที่ยังไม่ได้ใช้
+    $sql = "SELECT * FROM using_dc,discount_codes WHERE using_dc.use_dc_code=discount_codes.dc_code AND use_od_id is null AND use_cus_username=?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$cus]);
+    $dc1 = $stmt->fetchAll();
+
+    // โค้ดส่วนลดที่ใช้แล้ว
+    $sql = "SELECT * FROM using_dc,discount_codes WHERE using_dc.use_dc_code=discount_codes.dc_code AND use_od_id is not null AND use_cus_username=?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$cus]);
+    $dc2 = $stmt->fetchAll();
 }
 
 ?>
@@ -54,7 +82,7 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                         <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">ข้อมูลส่วนตัว</a>
                         <a class="nav-link" id="v-pills-order-tab" data-toggle="pill" href="#v-pills-order" role="tab" aria-controls="v-pills-order" aria-selected="false">รายการซื้อของฉัน</a>
                         <a class="nav-link" id="v-pills-transaction-tab" data-toggle="pill" href="#v-pills-transaction" role="tab" aria-controls="v-pills-transaction" aria-selected="false">บันทึกธุรกรรม</a>
-                        <a class="nav-link" id="v-pills-discount-tab" data-toggle="pill" href="#v-pills-discount" role="tab" aria-controls="v-pills-discount" aria-selected="false">โค้ดส่วนลด (0)</a>
+                        <a class="nav-link" id="v-pills-discount-tab" data-toggle="pill" href="#v-pills-discount" role="tab" aria-controls="v-pills-discount" aria-selected="false">โค้ดส่วนลด (<?= count($dc1) ?>)</a>
                     </div>
 
                 </div>
@@ -163,7 +191,7 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                     <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">ทั้งหมด</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="pills-waitpay-tab" data-toggle="pill" href="#pills-waitpay" role="tab" aria-controls="pills-waitpay" aria-selected="false">รอชำระ</a>
+                                    <a class="nav-link" id="pills-waitpay-tab" data-toggle="pill" href="#pills-waitpay" role="tab" aria-controls="pills-waitpay" aria-selected="false">รอชำระ (<?= count($od2) ?>)</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="pills-waitdelivery-tab" data-toggle="pill" href="#pills-waitdelivery" role="tab" aria-controls="pills-waitdelivery" aria-selected="false">รอจัดส่ง</a>
@@ -180,15 +208,27 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                             </ul>
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
-                                    <div class="card">
-                                        <div class="card-header d-flex justify-content-between">
-                                            <strong>ID: </strong>
-                                            <strong>สถานะ: </strong>
+                                    <?php if (count($od1) > 0) : ?>
+                                        <?php foreach ($od1 as $od) { ?>
+                                            <div class="card">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <strong>ID: <?= $od['od_id'] ?></strong>
+                                                    <strong>สถานะ: <?= $od['od_status'] ?></strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <strong>ยอดคำสั่งซื้อทั้งหมด: <?= number_format($od['od_total'], 2) ?> บาท</strong>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <a href="myorder.php?id=<?= $od['od_id'] ?>" class="btn btn-info float-right">ดูคำสั่งซื้อ</a>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php else : ?>
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>ยังไม่มีรายการสั่งซื้อ!</strong> <br>
+                                            ลองเลือกสินค้าจากร้านเราได้ที่นี้ <a href="product.php">คลิก!</a>
                                         </div>
-                                        <div class="card-body">
-
-                                        </div>
-                                    </div>
+                                    <?php endif ?>
                                 </div>
                                 <div class="tab-pane fade" id="pills-waitpay" role="tabpanel" aria-labelledby="pills-waitpay-tab">...</div>
                                 <div class="tab-pane fade" id="pills-waitdelivery" role="tabpanel" aria-labelledby="pills-waitdelivery-tab">...</div>
@@ -216,25 +256,55 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                         <div class="tab-pane fade" id="v-pills-discount" role="tabpanel" aria-labelledby="v-pills-discount-tab">
                             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="pills-unused-tab" data-toggle="pill" href="#pills-unused" role="tab" aria-controls="pills-unused" aria-selected="true">ยังไม่ได้ใช้ (0)</a>
+                                    <a class="nav-link active" id="pills-unused-tab" data-toggle="pill" href="#pills-unused" role="tab" aria-controls="pills-unused" aria-selected="true">ยังไม่ได้ใช้ (<?= count($dc1) ?>)</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="pills-used-tab" data-toggle="pill" href="#pills-used" role="tab" aria-controls="pills-used" aria-selected="false">ใช้แล้ว (0)</a>
+                                    <a class="nav-link" id="pills-used-tab" data-toggle="pill" href="#pills-used" role="tab" aria-controls="pills-used" aria-selected="false">ใช้แล้ว (<?= count($dc2) ?>)</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-unused" role="tabpanel" aria-labelledby="pills-unused-tab">
-                                    <div class="card">
-                                        <div class="card-header d-flex justify-content-between">
-                                            <strong>ID: </strong>
-                                            <strong>ประเภท: </strong>
+                                    <?php if (count($dc1) > 0) : ?>
+                                        <?php foreach ($dc1 as $dc) { ?>
+                                            <div class="card">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <strong>CODE: <?= $dc['dc_code'] ?></strong>
+                                                    <strong>ประเภท: <?= $dc['dc_type'] ?></strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <strong>มูลค่า: <?= number_format($dc['dc_value']) ?> <?= ($dc['dc_type'] == "ส่วนลดเงินสด") ? "บาท" : '%' ?></strong>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php else :  ?>
+                                        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                            <strong>ตอนนี้ท่านยังไม่มีโค้ดส่วนลด!</strong> <br>
+                                            หากท่านได้รับสิทธิ์ใช้โค้ดส่วนลด ทางเราจะส่งให้และแจ้งให้ท่านทราบทันที
                                         </div>
-                                        <div class="card-body">
-                                            <strong>มูลค่า: บาท</strong>
-                                        </div>
-                                    </div>
+                                    <?php endif ?>
                                 </div>
-                                <div class="tab-pane fade" id="pills-used" role="tabpanel" aria-labelledby="pills-used-tab">...</div>
+                                <div class="tab-pane fade" id="pills-used" role="tabpanel" aria-labelledby="pills-used-tab">
+                                    <?php if (count($dc2) > 0) : ?>
+                                        <?php foreach ($dc2 as $dc) { ?>
+                                            <div class="card">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <strong>CODE: <?= $dc['dc_code'] ?></strong>
+                                                    <strong>ประเภท: <?= $dc['dc_type'] ?></strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <strong>มูลค่า: <?= number_format($dc['dc_value']) ?> <?= ($dc['dc_type'] == "ส่วนลดเงินสด") ? "บาท" : '%' ?></strong>
+                                                    <br>
+                                                    <strong>รหัสรายการสั่งซื้อ: <?= $dc['use_od_id'] ?></strong>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    <?php else :  ?>
+                                        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                            <strong>ตอนนี้ท่านยังไม่มีโค้ดส่วนลดที่ใช้แล้ว!</strong> <br>
+                                            หากท่านได้รับสิทธิ์ใช้โค้ดส่วนลด ทางเราจะส่งให้และแจ้งให้ท่านทราบทันที
+                                        </div>
+                                    <?php endif ?>
+                                </div>
                             </div>
                         </div>
                     </div>

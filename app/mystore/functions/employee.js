@@ -73,7 +73,7 @@ function read() {
 function add() {
 
     let now = new Date();
-    let today = now.getFullYear()+'-'+("0" + (now.getMonth() + 1)).slice(-2)+'-'+now.getDate();
+    let today = now.getFullYear() + '-' + ("0" + (now.getMonth() + 1)).slice(-2) + '-' + ("0" + now.getDate()).slice(-2);
 
     let form = `
     <form id="createForm">

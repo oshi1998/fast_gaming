@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2021 at 02:30 AM
+-- Generation Time: Oct 02, 2021 at 09:08 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -157,6 +157,7 @@ CREATE TABLE `orders` (
   `od_discount_cost` double(10,2) NOT NULL COMMENT 'ส่วนลด',
   `od_total` double(10,2) NOT NULL COMMENT 'รวมทั้งหมด',
   `od_payment_method` varchar(255) NOT NULL COMMENT 'ช่องทางการชำระเงิน',
+  `od_delivery_type` varchar(255) NOT NULL COMMENT 'การจัดส่ง',
   `od_delivery_date` date NOT NULL COMMENT 'วันที่ดำเนินการจัดส่ง',
   `od_ems` varchar(255) NOT NULL COMMENT 'หมายเลข EMS',
   `od_status` varchar(255) NOT NULL COMMENT 'สถานะ',
@@ -169,8 +170,10 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`od_id`, `od_cus_username`, `od_amount`, `od_pro_total`, `od_shipping_cost`, `od_discount_cost`, `od_total`, `od_payment_method`, `od_delivery_date`, `od_ems`, `od_status`, `od_note`, `od_created`, `od_updated`) VALUES
-('OD20211002-469', 'oshi', 2, 6040.00, 100.00, 100.00, 6040.00, 'โอน/ชำระผ่านบัญชีธนาคาร', '0000-00-00', '', 'รอชำระเงิน', '', '2021-10-01 22:36:59', '2021-10-01 22:36:59');
+INSERT INTO `orders` (`od_id`, `od_cus_username`, `od_amount`, `od_pro_total`, `od_shipping_cost`, `od_discount_cost`, `od_total`, `od_payment_method`, `od_delivery_type`, `od_delivery_date`, `od_ems`, `od_status`, `od_note`, `od_created`, `od_updated`) VALUES
+('OD20211002-1094', 'oshi', 1, 3490.00, 100.00, 359.00, 3231.00, 'เก็บเงินปลายทาง', 'Fast Delivery - ส่งด่วนในประเทศ', '2021-10-03', 'EF582621151TH', 'สำเร็จ', '', '2021-10-02 09:21:56', '2021-10-02 17:54:59'),
+('OD20211002-739', 'oshi', 2, 6040.00, 100.00, 100.00, 6040.00, 'โอน/ชำระผ่านบัญชีธนาคาร', 'Fast Delivery - ส่งด่วนในประเทศ', '2021-10-03', '', 'จัดส่งสินค้าเรียบร้อย', '', '2021-10-02 08:20:46', '2021-10-02 18:57:09'),
+('OD20211003-984', 'oshi', 1, 25800.00, 70.00, 0.00, 25870.00, 'โอน/ชำระผ่านบัญชีธนาคาร', 'Standard Delivery - ส่งธรรมดาในประเทศ', '0000-00-00', '', 'ยกเลิกแล้ว', 'สินค้าไม่พร้อมส่ง', '2021-10-02 18:38:31', '2021-10-02 18:53:59');
 
 -- --------------------------------------------------------
 
@@ -190,8 +193,10 @@ CREATE TABLE `order_details` (
 --
 
 INSERT INTO `order_details` (`odd_id`, `odd_od_id`, `odd_pro_id`, `odd_amount`) VALUES
-(1, 'OD20211002-469', 'PRO202192843841', 1),
-(2, 'OD20211002-469', 'PRO2021930233444', 1);
+(3, 'OD20211002-739', 'PRO202192843841', 1),
+(4, 'OD20211002-739', 'PRO2021930233444', 1),
+(5, 'OD20211002-1094', 'PRO202193023347', 1),
+(6, 'OD20211003-984', 'PRO2021930233544', 2);
 
 -- --------------------------------------------------------
 
@@ -218,10 +223,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`pro_id`, `pro_name`, `pro_detail`, `pro_qty`, `pro_price`, `pro_type`, `pro_brand`, `pro_img`, `pro_view`, `pro_created`, `pro_updated`) VALUES
-('PRO202192843841', 'MOUSE (เมาส์) FANTECH BLAKE X17 (WHITE)', 'SENSOR\r\nConnectivity : Wired\r\nSensor Type : Optical\r\nSensor : PixArt PMW3325\r\nAdjustable LOD : No\r\nResolution : 200-10,000 DPI\r\nIPS : 100\r\nAcceleration : 20G\r\nPolling Rate : 1000Hz\r\nOn-board Memory : Yes\r\nDESIGN\r\nBack Cover Material : UV Matte\r\nCore Construction : ABS Plastic\r\nShape : Ambidextrous\r\nTotal Button : 8\r\nSwitch Type & Lifetime : Huano 20 million clicks\r\nIllumination : Running RGB with 7 RGB modes\r\nWeight : 91gr without cable\r\nDimension : 125*62*42mm\r\nCable : 1.8m Nylon braided cable\r\nCOMPATIBILITY\r\nOS : Windows and Mac OS X. USB Port Required\r\nSoftware : Windows (7 or Newer)\r\n', 10, 740.00, 2, 3, '615239ec48398.jpg', 219, '2021-09-27 21:38:52', '2021-10-01 10:12:50'),
-('PRO2021930233444', 'HEADPHONE (หูฟังไร้สาย) SKULLCANDY HESH 3.0 BLUETOOTH (SK-S6HTW-K617) BLUE', 'Weight: 200g\r\nConnection Type: Bluetooth® or Wired\r\nImpedence: 32 Ohms\r\nRapid Charge: 10 Min = 4 Hours of Play\r\nDriver Diameter: 40mm\r\nTHD: ≦2.0% @ 1KHz 1mW\r\nSound Pressure Level: 97.3db @1KHz\r\nFrequency Response: 20Hz - 20KHz\r\nHeadphone Type: Over-Ear\r\n', 20, 5300.00, 4, 6, '6155e73bf111e.jpg', 6, '2021-09-30 16:35:07', '2021-09-30 20:09:04'),
-('PRO202193023347', 'KEYBOARD (คีย์บอร์ด) DUCKY ONE 2 MINI RGB PURE WHITE (CHERRY MX BROWN) (EN/TH)', '•	Structure : Mechanical structure\r\n•	Trigger switch : Cherry MX mechanical switches\r\n•	Connection interface : USB 2.0\r\n•	Output key number : USB N-Key Rollover\r\n•	Printing technology : Double-Shot or Laser Engraved\r\n•	Dimensions : 302 x 108 x 40 mm\r\n•	Weight : 590g\r\n', 20, 3490.00, 3, 5, '6155e70f816bc.jpg', 12, '2021-09-30 16:34:23', '2021-10-01 16:12:29'),
-('PRO2021930233544', 'GAMING CHAIR (เก้าอี้เกมมิ่ง) RAZER ISKUR X (RZ38-02840100-R3U1) BLACK-GREEN', '•	Recommended Weight : < 136 kg (< 299 lbs)\r\n•	Recommended Height : 170 cm - 190 cm (5’6” to 6’2”)\r\n•	Chair Cover Color : Black and Green\r\n•	Chair Cover Material : PVC Leather\r\n•	Base : 5-star metal powder coated\r\n•	Frame : Metal & Plywood\r\n•	Armrests : 2D\r\n•	Casters : 6 cm Caster Wheel\r\n•	Gas Lift Class : 4\r\n•	Foam Type : High Density Molded Foam\r\n•	Adjustable Back Angle : 139 Degrees\r\n•	Adjustable Lumbar Cushion : No\r\n•	Adjustable Headrest : No\r\n', 10, 12900.00, 5, 4, '6155e76f7545e.jpg', 3, '2021-09-30 16:35:59', '2021-09-30 17:38:55');
+('PRO202192843841', 'MOUSE (เมาส์) FANTECH BLAKE X17 (WHITE)', 'SENSOR\r\nConnectivity : Wired\r\nSensor Type : Optical\r\nSensor : PixArt PMW3325\r\nAdjustable LOD : No\r\nResolution : 200-10,000 DPI\r\nIPS : 100\r\nAcceleration : 20G\r\nPolling Rate : 1000Hz\r\nOn-board Memory : Yes\r\nDESIGN\r\nBack Cover Material : UV Matte\r\nCore Construction : ABS Plastic\r\nShape : Ambidextrous\r\nTotal Button : 8\r\nSwitch Type & Lifetime : Huano 20 million clicks\r\nIllumination : Running RGB with 7 RGB modes\r\nWeight : 91gr without cable\r\nDimension : 125*62*42mm\r\nCable : 1.8m Nylon braided cable\r\nCOMPATIBILITY\r\nOS : Windows and Mac OS X. USB Port Required\r\nSoftware : Windows (7 or Newer)\r\n', 9, 740.00, 2, 3, '615239ec48398.jpg', 219, '2021-09-27 21:38:52', '2021-10-02 08:20:46'),
+('PRO2021930233444', 'HEADPHONE (หูฟังไร้สาย) SKULLCANDY HESH 3.0 BLUETOOTH (SK-S6HTW-K617) BLUE', 'Weight: 200g\r\nConnection Type: Bluetooth® or Wired\r\nImpedence: 32 Ohms\r\nRapid Charge: 10 Min = 4 Hours of Play\r\nDriver Diameter: 40mm\r\nTHD: ≦2.0% @ 1KHz 1mW\r\nSound Pressure Level: 97.3db @1KHz\r\nFrequency Response: 20Hz - 20KHz\r\nHeadphone Type: Over-Ear\r\n', 19, 5300.00, 4, 6, '6155e73bf111e.jpg', 6, '2021-09-30 16:35:07', '2021-10-02 08:20:46'),
+('PRO202193023347', 'KEYBOARD (คีย์บอร์ด) DUCKY ONE 2 MINI RGB PURE WHITE (CHERRY MX BROWN) (EN/TH)', '•	Structure : Mechanical structure\r\n•	Trigger switch : Cherry MX mechanical switches\r\n•	Connection interface : USB 2.0\r\n•	Output key number : USB N-Key Rollover\r\n•	Printing technology : Double-Shot or Laser Engraved\r\n•	Dimensions : 302 x 108 x 40 mm\r\n•	Weight : 590g\r\n', 19, 3490.00, 3, 5, '6155e70f816bc.jpg', 12, '2021-09-30 16:34:23', '2021-10-02 09:21:57'),
+('PRO2021930233544', 'GAMING CHAIR (เก้าอี้เกมมิ่ง) RAZER ISKUR X (RZ38-02840100-R3U1) BLACK-GREEN', '•	Recommended Weight : < 136 kg (< 299 lbs)\r\n•	Recommended Height : 170 cm - 190 cm (5’6” to 6’2”)\r\n•	Chair Cover Color : Black and Green\r\n•	Chair Cover Material : PVC Leather\r\n•	Base : 5-star metal powder coated\r\n•	Frame : Metal & Plywood\r\n•	Armrests : 2D\r\n•	Casters : 6 cm Caster Wheel\r\n•	Gas Lift Class : 4\r\n•	Foam Type : High Density Molded Foam\r\n•	Adjustable Back Angle : 139 Degrees\r\n•	Adjustable Lumbar Cushion : No\r\n•	Adjustable Headrest : No\r\n', 10, 12900.00, 5, 4, '6155e76f7545e.jpg', 6, '2021-09-30 16:35:59', '2021-10-02 18:54:05');
 
 -- --------------------------------------------------------
 
@@ -319,6 +324,13 @@ CREATE TABLE `transactions` (
   `tst_created` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'สร้างเมื่อ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`tst_id`, `tst_cus_username`, `tst_od_id`, `tst_amount`, `tst_slip`, `tst_re_bank`, `tst_re_acc_number`, `tst_re_acc_name`, `tst_transfer_bank`, `tst_transfer_acc_number`, `tst_transfer_acc_name`, `tst_transfer_datetime`, `tst_created`) VALUES
+('TST20211002-461', 'oshi', 'OD20211002-739', 6040.00, 'OD20211002-739.jpg', 'ไทยพาณิชย์', '4066171712', 'Fast Gaming Gear', 'ธนาคารไทยพาณิชย์', '4066171712', 'วงศ์วสันต์ ดวงเกตุ', '2021-10-02 15:33:00', '2021-10-02 08:33:24');
+
 -- --------------------------------------------------------
 
 --
@@ -362,7 +374,8 @@ CREATE TABLE `using_dc` (
 --
 
 INSERT INTO `using_dc` (`use_id`, `use_cus_username`, `use_dc_code`, `use_od_id`, `use_created`) VALUES
-(2, 'oshi', 'TEST66', 'OD20211002-469', '2021-10-01 22:19:30');
+(2, 'oshi', 'TEST66', 'OD20211002-739', '2021-10-01 22:19:30'),
+(3, 'oshi', 'TEST2', 'OD20211002-1094', '2021-10-02 09:25:43');
 
 --
 -- Indexes for dumped tables
@@ -481,7 +494,7 @@ ALTER TABLE `discount_codes`
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `odd_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัส', AUTO_INCREMENT=3;
+  MODIFY `odd_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัส', AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product_types`
@@ -499,7 +512,7 @@ ALTER TABLE `shipping`
 -- AUTO_INCREMENT for table `using_dc`
 --
 ALTER TABLE `using_dc`
-  MODIFY `use_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัส', AUTO_INCREMENT=3;
+  MODIFY `use_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัส', AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

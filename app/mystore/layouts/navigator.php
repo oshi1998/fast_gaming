@@ -84,6 +84,14 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 25);
                         </a>
                     </li>
                 <?php endif ?>
+                <li class="nav-item">
+                        <a href="order.php" class="nav-link <?= ($current_file == 'order.php') ? 'active' : '' ?>">
+                            <i class="nav-icon fas fa-cart-arrow-down"></i>
+                            <p>
+                                รายการสั่งซื้อของลูกค้า
+                            </p>
+                        </a>
+                    </li>
                 <li class="nav-item <?= ($current_file == 'owner.php' || $current_file == 'employee.php' || $current_file == 'customer.php') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= ($current_file == 'owner.php' || $current_file == 'employee.php' || $current_file == 'customer.php') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-users"></i>

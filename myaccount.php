@@ -13,49 +13,49 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
     $cus = $_SESSION['CUSTOMER_USERNAME'];
 
     // รายการซื้อทั้งหมด
-    $sql = "SELECT * FROM orders WHERE od_cus_username = ?";
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? ORDER BY od_created DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$cus]);
     $od1 = $stmt->fetchAll();
 
     // รายการซื้อ สถานะ รอชำระเงิน/กำลังตรวจสอบหลักฐานการโอนเงิน
-    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ? OR od_status = ?";
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ? OR od_status = ? ORDER BY od_created DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$cus, "รอชำระเงิน", "กำลังตรวจสอบหลักฐานการโอนเงิน"]);
     $od2 = $stmt->fetchAll();
 
     // รายการซื้อ สถานะ เตรียมจัดส่งสินค้า
-    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ?";
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ? ORDER BY od_created DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$cus, "เตรียมจัดส่งสินค้า"]);
     $od3 = $stmt->fetchAll();
 
     // รายการซื้อ สถานะ จัดส่งสินค้าเรียบร้อย
-    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ?";
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ? ORDER BY od_created DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$cus, "จัดส่งสินค้าเรียบร้อย"]);
     $od4 = $stmt->fetchAll();
 
     // รายการซื้อ สถานะ สำเร็จ
-    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ?";
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ? ORDER BY od_created DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$cus, "สำเร็จ"]);
     $od5 = $stmt->fetchAll();
 
     // รายการซื้อ สถานะ ยกเลิกแล้ว
-    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ?";
+    $sql = "SELECT * FROM orders WHERE od_cus_username = ? AND od_status = ? ORDER BY od_created DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$cus, "ยกเลิกแล้ว"]);
     $od6 = $stmt->fetchAll();
 
     // โค้ดส่วนลดที่ยังไม่ได้ใช้
-    $sql = "SELECT * FROM using_dc,discount_codes WHERE using_dc.use_dc_code=discount_codes.dc_code AND use_od_id is null AND use_cus_username=?";
+    $sql = "SELECT * FROM using_dc,discount_codes WHERE using_dc.use_dc_code=discount_codes.dc_code AND use_od_id is null AND use_cus_username=? ORDER BY use_created DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$cus]);
     $dc1 = $stmt->fetchAll();
 
     // โค้ดส่วนลดที่ใช้แล้ว
-    $sql = "SELECT * FROM using_dc,discount_codes WHERE using_dc.use_dc_code=discount_codes.dc_code AND use_od_id is not null AND use_cus_username=?";
+    $sql = "SELECT * FROM using_dc,discount_codes WHERE using_dc.use_dc_code=discount_codes.dc_code AND use_od_id is not null AND use_cus_username=? ORDER BY use_created DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$cus]);
     $dc2 = $stmt->fetchAll();
@@ -313,6 +313,9 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                                 </div>
                                                 <div class="card-body">
                                                     <strong>ยอดคำสั่งซื้อทั้งหมด: <?= number_format($od['od_total'], 2) ?> บาท</strong>
+                                                    <hr>
+                                                    <strong>ส่งสินค้าเมื่อ: </strong> <?= $od['od_delivery_date'] ?> <br>
+                                                    <strong>EMS: </strong> <?= $od['od_ems'] ?>
                                                 </div>
                                                 <div class="card-footer">
                                                     <a href="myorder.php?id=<?= $od['od_id'] ?>" class="btn btn-info float-right">ดูคำสั่งซื้อ</a>
@@ -359,6 +362,8 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                                                 </div>
                                                 <div class="card-body">
                                                     <strong>ยอดคำสั่งซื้อทั้งหมด: <?= number_format($od['od_total'], 2) ?> บาท</strong>
+                                                    <hr>
+                                                    <strong style="color:red;">สาเหตุ: </strong> <?= $od['od_note'] ?>
                                                 </div>
                                                 <div class="card-footer">
                                                     <a href="myorder.php?id=<?= $od['od_id'] ?>" class="btn btn-info float-right">ดูคำสั่งซื้อ</a>

@@ -48,6 +48,12 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
     $stmt->execute([$cus, "ยกเลิกแล้ว"]);
     $od6 = $stmt->fetchAll();
 
+    // ธุรกรรม
+    $sql = "SELECT * FROM transactions WHERE tst_cus_username = ? ORDER BY tst_created DESC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$cus]);
+    $tst = $stmt->fetchAll();
+
     // โค้ดส่วนลดที่ยังไม่ได้ใช้
     $sql = "SELECT * FROM using_dc,discount_codes WHERE using_dc.use_dc_code=discount_codes.dc_code AND use_od_id is null AND use_cus_username=? ORDER BY use_created DESC";
     $stmt = $pdo->prepare($sql);
@@ -380,20 +386,35 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                             </div>
                         </div>
                         <div class="tab-pane fade" id="v-pills-transaction" role="tabpanel" aria-labelledby="v-pills-transaction-tab">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>ประเภท</th>
-                                            <th>วันที่</th>
-                                            <th>รหัสรายการสั่งซื้อ</th>
-                                            <th>จำนวนเงิน</th>
-                                            <th>สถานะ</th>
-                                            <th>หมายเหตุ</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
+                            <?php if (count($tst) > 0) : ?>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>ประเภท</th>
+                                                <th>วันที่</th>
+                                                <th>รหัสรายการสั่งซื้อ</th>
+                                                <th>จำนวนเงิน</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($tst as $item) {?>
+                                                <tr>
+                                                    <td>ชำระเงิน</td>
+                                                    <td><?= $item['tst_created'] ?></td>
+                                                    <td><?= $item['tst_od_id'] ?></td>
+                                                    <td><?= $item['tst_amount'] ?></td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php else : ?>
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>ยังไม่มีรายการธุรกรรม!</strong> <br>
+                                    ลองเลือกสินค้าจากร้านเราได้ที่นี้ <a href="product.php">คลิก!</a>
+                                </div>
+                            <?php endif ?>
                         </div>
                         <div class="tab-pane fade" id="v-pills-discount" role="tabpanel" aria-labelledby="v-pills-discount-tab">
                             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">

@@ -2,7 +2,22 @@
 session_start();
 require_once('app/api/connect.php');
 require_once('app/api/mystore.php');
-require_once('app/api/myproducts.php');
+
+if (isset($_GET['search_query']) && !empty($_GET['search_query'])) {
+  $sql = "SELECT * FROM products WHERE pro_name LIKE :search OR pro_detail LIKE :search";
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute([
+    'search' => "%$_GET[search_query]%"
+  ]);
+  $products = $stmt->fetchAll();
+
+  if (empty($products)) {
+    require_once('app/api/myproducts.php');
+  }
+} else {
+  require_once('app/api/myproducts.php');
+}
+
 ?>
 
 <!DOCTYPE html>

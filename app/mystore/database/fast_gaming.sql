@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2021 at 09:08 PM
+-- Generation Time: Oct 03, 2021 at 02:43 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -142,6 +142,13 @@ CREATE TABLE `employees` (
   `emp_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'อัพเดตล่าสุด'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`emp_id`, `emp_firstname`, `emp_lastname`, `emp_contact`, `emp_level`, `emp_password`, `emp_avatar`, `emp_id_card_code`, `emp_id_card_img`, `emp_join_date`, `emp_out_date`, `emp_status`, `emp_note`, `emp_contract`, `emp_created`, `emp_updated`) VALUES
+('EMP2021103172144', 'วงศ์วสันต์', 'ดวงเกตุ', '', 'พนักงาน', '$2y$10$G/nZ5fvvUSpLErQapotgQeI4zjixRG/OviReA8DamrY2IjiybamNm', '6159844718724.jpg', '', '', '2021-10-03', NULL, 'พนักงานประจำ', '', '', '2021-10-03 10:21:59', '2021-10-03 11:15:02');
+
 -- --------------------------------------------------------
 
 --
@@ -172,7 +179,7 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`od_id`, `od_cus_username`, `od_amount`, `od_pro_total`, `od_shipping_cost`, `od_discount_cost`, `od_total`, `od_payment_method`, `od_delivery_type`, `od_delivery_date`, `od_ems`, `od_status`, `od_note`, `od_created`, `od_updated`) VALUES
 ('OD20211002-1094', 'oshi', 1, 3490.00, 100.00, 359.00, 3231.00, 'เก็บเงินปลายทาง', 'Fast Delivery - ส่งด่วนในประเทศ', '2021-10-03', 'EF582621151TH', 'สำเร็จ', '', '2021-10-02 09:21:56', '2021-10-02 17:54:59'),
-('OD20211002-739', 'oshi', 2, 6040.00, 100.00, 100.00, 6040.00, 'โอน/ชำระผ่านบัญชีธนาคาร', 'Fast Delivery - ส่งด่วนในประเทศ', '2021-10-03', '', 'จัดส่งสินค้าเรียบร้อย', '', '2021-10-02 08:20:46', '2021-10-02 18:57:09'),
+('OD20211002-739', 'oshi', 2, 6040.00, 100.00, 100.00, 6040.00, 'โอน/ชำระผ่านบัญชีธนาคาร', 'Fast Delivery - ส่งด่วนในประเทศ', '2021-10-03', '', 'สำเร็จ', '', '2021-10-02 08:20:46', '2021-10-03 12:08:09'),
 ('OD20211003-984', 'oshi', 1, 25800.00, 70.00, 0.00, 25870.00, 'โอน/ชำระผ่านบัญชีธนาคาร', 'Standard Delivery - ส่งธรรมดาในประเทศ', '0000-00-00', '', 'ยกเลิกแล้ว', 'สินค้าไม่พร้อมส่ง', '2021-10-02 18:38:31', '2021-10-02 18:53:59');
 
 -- --------------------------------------------------------
@@ -375,7 +382,8 @@ CREATE TABLE `using_dc` (
 
 INSERT INTO `using_dc` (`use_id`, `use_cus_username`, `use_dc_code`, `use_od_id`, `use_created`) VALUES
 (2, 'oshi', 'TEST66', 'OD20211002-739', '2021-10-01 22:19:30'),
-(3, 'oshi', 'TEST2', 'OD20211002-1094', '2021-10-02 09:25:43');
+(3, 'oshi', 'TEST2', 'OD20211002-1094', '2021-10-02 09:25:43'),
+(4, 'oshi', 'NEWCUSTOMER2021', NULL, '2021-10-03 10:18:54');
 
 --
 -- Indexes for dumped tables
@@ -512,7 +520,7 @@ ALTER TABLE `shipping`
 -- AUTO_INCREMENT for table `using_dc`
 --
 ALTER TABLE `using_dc`
-  MODIFY `use_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัส', AUTO_INCREMENT=4;
+  MODIFY `use_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัส', AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

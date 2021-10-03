@@ -20,12 +20,12 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 13);
                         </span>
                     </a>
                 </div>
-                <from class="search_form">
-                    <input type="text" class="form-control" placeholder="Search here...">
-                    <button class="" type="submit">
+                <form action="product.php" method="get" class="search_form">
+                    <input type="text" class="form-control" name="search_query" placeholder="ค้นหาสินค้า...">
+                    <button type="submit">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
-                </from>
+                </form>
                 <?php if (isset($_SESSION['CUSTOMER_USERNAME']) && !empty($_SESSION['CUSTOMER_USERNAME'])) : ?>
                     <div class="user_option_box">
                         <a href="myaccount.php" class="account-link">

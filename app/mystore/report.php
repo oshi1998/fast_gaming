@@ -1,6 +1,6 @@
 <?php 
-require_once('permission/access.php');
-require_once('permission/onlyowner.php'); 
+require_once('permission/access.php'); 
+require_once('permission/onlyowner.php');
 require_once('api/mystore.php');
 ?>
 
@@ -14,7 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>จัดการข้อมูลบัญชีธนาคาร | ระบบจัดการข้อมูลหลังบ้าน</title>
+    <title>รายงาน | ระบบจัดการข้อมูลหลังบ้าน</title>
     <!-- Sweetalert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Toastr -->
@@ -42,12 +42,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">จัดการข้อมูลบัญชีธนาคาร</h1>
+                            <h1 class="m-0">รายงาน</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">แดชบอร์ด</a></li>
-                                <li class="breadcrumb-item active">จัดการข้อมูลบัญชีธนาคาร</li>
+                                <li class="breadcrumb-item active">รายงาน</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -61,34 +61,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <button type="button" class="btn btn-outline-success" onclick="add()">
-                                            <i class="fas fa-plus"></i>
-                                            <span>เพิ่มข้อมูล</span>
-                                        </button>
-                                    </h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <table id="dataTable" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>ลำดับ</th>
-                                                <th>สร้างเมื่อ</th>
-                                                <th>ธนาคาร</th>
-                                                <th>เลขบัญชี</th>
-                                                <th>ชื่อบัญชี</th>
-                                                <th>จัดการ</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="databody">
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
+                            <ul>
+                                <li>
+                                    <a target="_blank" href="show_report.php?report=allempnow">รายชื่อพนักงานปัจจุบัน (ทั้งหมด)</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <!-- /.row -->
@@ -141,9 +118,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
-
-    <!-- Bank Function -->
-    <script src="functions/bank.js"></script>
 </body>
 
 </html>

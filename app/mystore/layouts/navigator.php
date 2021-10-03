@@ -83,6 +83,14 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 25);
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="report.php" class="nav-link <?= ($current_file == 'report.php') ? 'active' : '' ?>">
+                            <i class="nav-icon fas fa-file-alt"></i>
+                            <p>
+                                รายงาน
+                            </p>
+                        </a>
+                    </li>
                 <?php endif ?>
                 <li class="nav-item">
                     <a href="order.php" class="nav-link <?= ($current_file == 'order.php') ? 'active' : '' ?>">

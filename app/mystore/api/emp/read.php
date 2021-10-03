@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     header("Content-type:application/json");
     require_once('../connect.php');
 
-    $sql = "SELECT * FROM employees WHERE emp_status!='พ้นสภาพพนักงาน'";
+    $sql = "SELECT * FROM employees";
     $result = $pdo->query($sql);
 
     if ($result) {

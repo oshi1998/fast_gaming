@@ -21,6 +21,10 @@ function read() {
                     <td>${element['dc_type']}</td>
                     <td>${element['dc_value']}</td>
                     <td>
+                        <button type="button" class="btn btn-success" onclick="sendCode('${element['dc_code']}')">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>ส่งโค้ดนี้ให้ลูกค้า</span>
+                        </button>
                         <button class="btn btn-primary" onclick="edit('${element['dc_id']}')">
                             <i class="fas fa-edit"></i>
                             <span>แก้ไข</span>
@@ -274,5 +278,81 @@ function deleteData(id) {
         } else {
             return;
         }
+    });
+}
+
+function sendCode(code) {
+
+    $.ajax({
+        method: "post",
+        url: "api/customer/read.php"
+    }).done(function (res) {
+        //console.log(res);
+        let customers = res.data;
+        let customer_list;
+
+        customers.forEach(element => {
+            customer_list += `
+                <option value="${element['cus_username']}">${element['cus_firstname'] + " " + element['cus_lastname']+" ("+element['cus_username']+")"}</option>
+            `;
+        });
+
+
+        let form_html = `
+    
+        <form id="sendCodeForm">
+            <div class="form-group">
+                <label>โค้ด</label>
+                <input type="text" class="form-control" name="code" value="${code}" readonly>
+            </div>
+            <div class="form-group">
+                <label>ลูกค้า</label>
+                <select class="form-control" name="customer">
+                    <option value="" selected disabled>---- เลือกลูกค้า ----</option>
+                    ${customer_list}
+                </select>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="submitSendCode()">
+                    บันทึก
+                </button>
+            </div>
+        </form>
+                `;
+
+        $('#myModalLabel').text("แบบฟอร์มส่งโค้ดส่วนลดให้ลูกค้า");
+        $('#myModalBody').html(form_html);
+        $('#myModal').modal('show');
+    }).fail(function (res) {
+        swal({
+            title: "ผิดพลาด",
+            text: res.responseJSON['message'],
+            icon: "error"
+        });
+    });
+
+}
+
+function submitSendCode() {
+    $.ajax({
+        method: "post",
+        url: "api/discount_code/send.php",
+        data: $('#sendCodeForm').serialize()
+    }).done(function(res){
+        console.log(res);
+        swal({
+            title: "สำเร็จ",
+            text: res.message,
+            icon: "success"
+        }).then(()=>{
+            window.location.reload();
+        });
+    }).fail(function(res){
+        swal({
+            title: "ผิดพลาด",
+            text: res.responseJSON['message'],
+            icon: "error"
+        });
     });
 }

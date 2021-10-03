@@ -7,8 +7,26 @@ function read() {
 
         let data = res.data;
         let data_table;
+        let btn3;
 
         data.forEach(element => {
+
+            if (element['emp_status'] == "พ้นสภาพพนักงาน") {
+                btn3 = `
+                <button class="btn btn-success" onclick="restore('${element['emp_id']}')">
+                    <i class="fas fa-user-check"></i>
+                    <span>คืนสภาพพนักงาน</span>
+                </button>
+                `;
+            } else {
+                btn3 = ` 
+                <button class="btn btn-danger" onclick="out('${element['emp_id']}')">
+                    <i class="fas fa-user-slash"></i>
+                    <span>พ้นสภาพพนักงาน</span>
+                </button>
+                `;
+            }
+
             data_table += `
                 <tr>
                     <td>${element['emp_created']}</td>
@@ -41,10 +59,7 @@ function read() {
                             <i class="fas fa-address-card"></i>
                             <span>ข้อมูลพนักงาน</span>
                         </button>
-                        <button class="btn btn-danger" onclick="out('${element['emp_id']}')">
-                            <i class="fas fa-user-slash"></i>
-                            <span>พ้นสภาพพนักงาน</span>
-                        </button>
+                        ${btn3}
                     </td>
                 </tr>
             `;
@@ -401,7 +416,7 @@ function infoEmp(id) {
             id_card_img = `<a target="_blank" href="dist/img/emp/${id}/${data['emp_id_card_img']}">ดูบัตรประชาชน</a>`;
         }
 
-        if (data['emp_join_date'] == "" || data['emp_join_date'] == null || data['emp_join_date']=="0000-00-00") {
+        if (data['emp_join_date'] == "" || data['emp_join_date'] == null || data['emp_join_date'] == "0000-00-00") {
             join = "ไม่มีข้อมูลวันที่เข้าทำงาน"
         } else {
             join = data['emp_join_date'];
@@ -482,6 +497,9 @@ function infoEmp(id) {
 
 function out(id) {
 
+    let now = new Date();
+    let today = now.getFullYear() + '-' + ("0" + (now.getMonth() + 1)).slice(-2) + '-' + ("0" + now.getDate()).slice(-2);
+
     let form = `
     <form id="outForm">
 
@@ -497,7 +515,7 @@ function out(id) {
 
     <div class="form-group">
         <label>วันที่พ้นสภาพ</label>
-        <input type="date" class="form-control" name="out_date">
+        <input type="date" class="form-control" name="out_date" value="${today}">
     </div>
 
     <div class="modal-footer">
@@ -546,5 +564,57 @@ function submitOut() {
         } else {
             return;
         }
+    });
+}
+
+
+function restore(id) {
+    let form = `
+        <form id="restoreForm">
+            <div class="form-group">
+                <label>รหัสพนักงาน</label>
+                <input type="text" class="form-control" name="id" value="${id}" readonly>
+            </div>
+            <div class="form-group">
+                <label>สถานภาพ</label>
+                <select class="form-control" name="status">
+                    <option value="" selected disabled>--- เลือกสถานภาพ ---</option>
+                    <option value="พนักงานประจำ">พนักงานประจำ</option>
+                    <option value="พนักงานตามสัญญาจ้าง">พนักงานตามสัญญาจ้าง</option>
+                    <option value="พนักงานพาร์ทไทม์">พนักงานพาร์ทไทม์</option>
+                </select>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="submitRestore()">ตกลง</button>
+            </div>
+        </form>
+    `;
+
+    $('#myModalLabel').text("คืนสภาพพนักงาน "+id);
+    $('#myModalBody').html(form);
+    $('#myModal').modal('show');
+}
+
+function submitRestore() {
+    $.ajax({
+        method: "post",
+        url: "api/emp/restore.php",
+        data: $('#restoreForm').serialize()
+    }).done(function (res) {
+        console.log(res);
+        swal({
+            title: "สำเร็จ",
+            text: res.message,
+            icon: "success"
+        }).then(() => {
+            window.location.reload();
+        });
+    }).fail(function (res) {
+        swal({
+            title: "ผิดพลาด",
+            text: res.responseJSON['message'],
+            icon: "error"
+        });
     });
 }

@@ -85,13 +85,13 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 25);
                     </li>
                 <?php endif ?>
                 <li class="nav-item">
-                        <a href="order.php" class="nav-link <?= ($current_file == 'order.php') ? 'active' : '' ?>">
-                            <i class="nav-icon fas fa-cart-arrow-down"></i>
-                            <p>
-                                รายการสั่งซื้อของลูกค้า
-                            </p>
-                        </a>
-                    </li>
+                    <a href="order.php" class="nav-link <?= ($current_file == 'order.php') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-cart-arrow-down"></i>
+                        <p>
+                            รายการสั่งซื้อของลูกค้า
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item <?= ($current_file == 'owner.php' || $current_file == 'employee.php' || $current_file == 'customer.php') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= ($current_file == 'owner.php' || $current_file == 'employee.php' || $current_file == 'customer.php') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-users"></i>
@@ -123,14 +123,16 @@ $current_file = substr($_SERVER['SCRIPT_NAME'], 25);
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="bank.php" class="nav-link <?= ($current_file == 'bank.php') ? 'active' : '' ?>">
-                        <i class="nav-icon fas fa-money-bill"></i>
-                        <p>
-                            บัญชีธนาคาร
-                        </p>
-                    </a>
-                </li>
+                <?php if ($_SESSION['ADMIN_LEVEL'] == "เจ้าของร้าน") : ?>
+                    <li class="nav-item">
+                        <a href="bank.php" class="nav-link <?= ($current_file == 'bank.php') ? 'active' : '' ?>">
+                            <i class="nav-icon fas fa-money-bill"></i>
+                            <p>
+                                บัญชีธนาคาร
+                            </p>
+                        </a>
+                    </li>
+                <?php endif ?>
                 <li class="nav-item">
                     <a href="discount_code.php" class="nav-link <?= ($current_file == 'discount_code.php') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-code"></i>

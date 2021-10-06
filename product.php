@@ -12,11 +12,27 @@ if (isset($_GET['search_query']) && !empty($_GET['search_query'])) {
   $products = $stmt->fetchAll();
 
   if (empty($products)) {
+    $empty_pro = "ไม่พบสินค้า $_GET[search_query]";
+    require_once('app/api/myproducts.php');
+  }
+} else if (isset($_GET['type']) && !empty($_GET['type'])) {
+  $sql = "SELECT * FROM products WHERE pro_type = ?";
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute([$_GET['type']]);
+  $products = $stmt->fetchAll();
+
+  if (empty($products)) {
     require_once('app/api/myproducts.php');
   }
 } else {
   require_once('app/api/myproducts.php');
 }
+
+//Select ประเภทสินค้า
+
+$sql = "SELECT * FROM product_types";
+$stmt = $pdo->query($sql);
+$types = $stmt->fetchAll();
 
 ?>
 
@@ -52,47 +68,73 @@ if (isset($_GET['search_query']) && !empty($_GET['search_query'])) {
   <!-- product section -->
 
   <section class="product_section layout_padding">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>
-          สินค้าของเรา
-        </h2>
+
+    <div class="float-left p-5 position-fixed">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">
+          <strong>เมนูสินค้า</strong>
+        </a>
+        <a href="product.php" class="list-group-item list-group-item-action">ทั้งหมด</a>
+        <?php foreach ($types as $type) { ?>
+          <a href="product.php?type=<?= $type['pt_id'] ?>" class="list-group-item list-group-item-action"><?= $type['pt_name'] ?></a>
+        <?php } ?>
       </div>
+    </div>
+
+    <div class="container">
       <div class="row">
-        <?php foreach ($products as $product) { ?>
-          <div class="col-sm-6 col-lg-4">
-            <div class="box">
-              <div class="img-box">
-                <img src="app/images/products/<?= $product['pro_img'] ?>" alt="<?= $product['pro_detail'] ?>">
-                <a href="javascript:void(0)" class="add_cart_btn" onclick="addCart('<?= $product['pro_id'] ?>')">
-                  <span>
-                    ซื้อสินค้า
-                  </span>
-                </a>
-              </div>
-              <div class="detail-box">
-                <a href="product_detail.php?id=<?= $product['pro_id'] ?>">
-                  <h5>
-                    <?= $product['pro_name'] ?>
-                  </h5>
-                </a>
-                <div class="product_info">
-                  <h5>
-                    <span>ราคา:</span> <?= number_format($product['pro_price'], 2) ?> บาท
-                  </h5>
-                  <div class="star_container">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
+        <div class="col-md-12">
+          <div class="heading_container heading_center">
+            <h2>
+              สินค้าของเรา
+            </h2>
+            <?php if(isset($empty_pro) && !empty($empty_pro)) : ?>
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              <?= $empty_pro; ?>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <?php endif ?>
+          </div>
+          <div class="row">
+            <?php foreach ($products as $product) { ?>
+              <div class="col-sm-6 col-lg-4">
+                <div class="box">
+                  <div class="img-box">
+                    <img src="app/images/products/<?= $product['pro_img'] ?>" alt="<?= $product['pro_detail'] ?>">
+                    <a href="javascript:void(0)" class="add_cart_btn" onclick="addCart('<?= $product['pro_id'] ?>')">
+                      <span>
+                        ซื้อสินค้า
+                      </span>
+                    </a>
+                  </div>
+                  <div class="detail-box">
+                    <a href="product_detail.php?id=<?= $product['pro_id'] ?>">
+                      <h5>
+                        <?= $product['pro_name'] ?>
+                      </h5>
+                    </a>
+                    <div class="product_info">
+                      <h5>
+                        <span>ราคา:</span> <?= number_format($product['pro_price'], 2) ?> บาท
+                      </h5>
+                      <div class="star_container">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            <?php } ?>
           </div>
-        <?php } ?>
+        </div>
       </div>
+
     </div>
   </section>
 

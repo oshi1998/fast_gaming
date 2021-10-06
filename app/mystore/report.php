@@ -1,5 +1,5 @@
-<?php 
-require_once('permission/access.php'); 
+<?php
+require_once('permission/access.php');
 require_once('permission/onlyowner.php');
 require_once('api/mystore.php');
 ?>
@@ -29,7 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
 
-<body class="hold-transition sidebar-mini" onload="read()">
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
         <!-- Include Navigator file -->
@@ -42,7 +42,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">รายงาน</h1>
+                            <h1 class="m-0">รายงานทั่วไป</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -65,7 +65,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <li>
                                     <a target="_blank" href="show_report.php?report=allempnow">รายชื่อพนักงานปัจจุบัน (ทั้งหมด)</a>
                                 </li>
+                                <li>
+                                    <a target="_blank" href="show_report.php?report=allcus">รายชื่อลูกค้า (ทั้งหมด)</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="show_report.php?report=allproducts">รายการสินค้า (ทั้งหมด)</a>
+                                </li>
                             </ul>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2 class="m-0">รายงานยอดขาย</h2>
+                        </div>
+                        <div class="col-sm-12">
+                            <br>
+                            <ul>
+                                <li>
+                                    <a target="_blank" href="show_report.php?report=saletoday">ยอดขายวันนี้</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="show_report.php?report=sale7day">ยอดขาย 7 วันหลังสุด</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="show_report.php?report=sale30day">ยอดขาย 30 วันหลังสุด</a>
+                                </li>
+                            </ul>
+
+                            <div class="card">
+                                <div class="card-header bg-info">
+                                    เรียกดูรายงานยอดขาย ตามช่วงวันที่ เริ่มต้น-สิ้นสุด
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label class="col-form-label">เริ่มต้น</label>
+                                        <div class="col-2">
+                                            <input type="date" class="form-control" name="start">
+                                        </div>
+                                        <label class="col-form-label">สิ้นสุด</label>
+                                        <div class="col-2">
+                                            <input type="date" class="form-control" name="end">
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="button" class="btn btn-success" onclick="findSaleReport()">ค้นหา</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <!-- /.row -->
@@ -118,6 +168,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
+
+
+    <script>
+        function findSaleReport() {
+            let start = $('input[name="start"]').val();
+            let end = $('input[name="end"]').val();
+
+            if (start == "" || start == null) {
+                swal({
+                    title: "กรุณาเลือกวันที่เริ่มต้น",
+                    icon: "error"
+                }).then(() => {
+                    $('input[name="start"]').focus();
+                    return false;
+                });
+            } else if (end == "" || end == null) {
+                swal({
+                    title: "กรุณาเลือกวันที่สิ้นสุด",
+                    icon: "error"
+                }).then(() => {
+                    $('input[name="end"]').focus();
+                    return false;
+                });
+            } else {
+                window.open(`show_report.php?report=salerange&start=${start}&end=${end}`,'_blank');
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -43,13 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
 
-    $sql = "INSERT INTO products (pro_id,pro_name,pro_detail,pro_qty,pro_price,pro_type,pro_brand,pro_img) VALUES
-    (:id,:name,:detail,:qty,:price,:type,:brand,:img)";
+    $sql = "INSERT INTO products (pro_id,pro_name,pro_qty,pro_price,pro_type,pro_brand,pro_img) VALUES
+    (:id,:name,:qty,:price,:type,:brand,:img)";
     $stmt = $pdo->prepare($sql);
     $result = $stmt->execute([
         'id' => $_POST['id'],
         'name' => $_POST['name'],
-        'detail' => $_POST['detail'],
         'qty' => $_POST['qty'],
         'price' => $_POST['price'],
         'type' => $_POST['type'],

@@ -60,6 +60,10 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                 <p>
                     ยอดผู้เข้าชม : <?= $product->pro_view ?>
                 </p>
+                <a href="product.php">
+                    <i class="fa fa-arrow-left"></i>
+                    <span>เมนูสินค้า</span>
+                </a>
             </div>
             <div class="row text-center">
                 <div class="col-12">
@@ -67,14 +71,16 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                 </div>
 
                 <div class="col-12">
+                    <hr>
                     <h3>รายละเอียด</h3>
-                    <p>
-                        <?= $product->pro_detail ?>
-                    </p>
+                    <?= $product->pro_detail ?>
                 </div>
 
+                <hr>
+
                 <div class="col-12">
-                    <strong>ราคา/ชิ้น : <?= number_format($product->pro_price,2) ?> บาท (มีสินค้าทั้งหมด : <?= $product->pro_qty ?> ชิ้น)</strong> <br><br>
+                    <hr>
+                    <strong>ราคา/ชิ้น : <?= number_format($product->pro_price, 2) ?> บาท (มีสินค้าทั้งหมด : <?= $product->pro_qty ?> ชิ้น)</strong> <br><br>
                     <button class="btn btn-primary" onclick="addCart('<?= $product->pro_id ?>')">
                         ซื้อสินค้า
                     </button>

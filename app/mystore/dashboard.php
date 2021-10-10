@@ -67,48 +67,56 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
                         <div class="col-lg-3 col-6">
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>+<?= $count->num_od; ?></h3>
-                                    <p>ออเดอร์วันนี้</p>
+                            <a href="order.php">
+                                <div class="small-box bg-success">
+                                    <div class="inner">
+                                        <h3>+<?= $count->num_od; ?></h3>
+                                        <p>ออเดอร์วันนี้</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </div>
                                 </div>
-                                <div class="icon">
-                                    <i class="fas fa-cart-plus"></i>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-lg-3 col-6">
-                            <div class="small-box bg-primary">
-                                <div class="inner">
-                                    <h3><?= $count->num_cus; ?></h3>
-                                    <p>ลูกค้า</p>
+                            <a href="customer.php">
+                                <div class="small-box bg-primary">
+                                    <div class="inner">
+                                        <h3><?= $count->num_cus; ?></h3>
+                                        <p>ลูกค้า</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
                                 </div>
-                                <div class="icon">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-lg-3 col-6">
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3><?= $count->num_emp; ?></h3>
-                                    <p>พนักงาน</p>
+                            <a href="employee.php">
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                        <h3><?= $count->num_emp; ?></h3>
+                                        <p>พนักงาน</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
                                 </div>
-                                <div class="icon">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-lg-3 col-6">
-                            <div class="small-box bg-secondary">
-                                <div class="inner">
-                                    <h3><?= $count->num_pro ?></h3>
-                                    <p>สินค้า</p>
+                            <a href="product.php">
+                                <div class="small-box bg-secondary">
+                                    <div class="inner">
+                                        <h3><?= $count->num_pro ?></h3>
+                                        <p>สินค้า</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-gamepad"></i>
+                                    </div>
                                 </div>
-                                <div class="icon">
-                                    <i class="fas fa-gamepad"></i>
-                                </div>
-                            </div>
+                            </a>
                         </div>
 
 

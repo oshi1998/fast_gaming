@@ -176,6 +176,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
+    <!-- CKEDITOR -->
+    <script src="plugins/ckeditor/ckeditor.js"></script>
 
     <!-- Brand Function -->
     <script src="functions/product.js"></script>

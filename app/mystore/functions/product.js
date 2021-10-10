@@ -22,6 +22,10 @@ function read() {
                     <td>${element['pro_price']}</td>
                     <td>${element['pro_qty']}</td>
                     <td>
+                        <a class="btn btn-info" href="product_detail.php?id=${element['pro_id']}">
+                            <i class="fas fa-edit"></i>
+                            <span>จัดการรายละเอียดสินค้า</span>
+                        </a>
                         <button class="btn btn-primary" onclick="edit('${element['pro_id']}')">
                             <i class="fas fa-edit"></i>
                             <span>แก้ไข</span>
@@ -67,11 +71,6 @@ function add(pt_id, pt_name, brand_id, brand_name) {
                     <input type="file" class="form-control" name="img" accept="image/*" onchange="readFile(event)">
                 </div>
 
-            </div>
-
-            <div class="form-group">
-                <label>รายละเอียด</label>
-                <textarea class="form-control" name="detail" rows="10"></textarea>
             </div>
         </div>
 
@@ -218,11 +217,6 @@ function edit(id) {
                     </div>
 
                 </div>
-
-            <div class="form-group">
-                <label>รายละเอียด</label>
-                <textarea class="form-control" name="detail" rows="10">${data['pro_detail']}</textarea>
-            </div>
         </div>
 
         <div class="col-lg-6 col-12">
@@ -248,24 +242,24 @@ function edit(id) {
                 <label>ประเภทสินค้า</label>
                 <select class="form-control" name="type" id="type">`;
 
-                types.forEach(element => {
-                   form += `<option value="${element['pt_id']}">${element['pt_name']}</option>`
-                });
-                
-                form += `
+        types.forEach(element => {
+            form += `<option value="${element['pt_id']}">${element['pt_name']}</option>`
+        });
+
+        form += `
                 </select>
             </div>
             <div class="form-group">
                 <label>ยี่ห้อสินค้า</label>
                 <select class="form-control" name="brand" id="brand">`;
-                
-                brands.forEach(element => {
-                    form += `
+
+        brands.forEach(element => {
+            form += `
                     <option value="${element['brand_id']}">${element['brand_name']}</option>
                     `;
-                });
-                
-                form += `
+        });
+
+        form += `
                 </select>
             </div>
         </div>
@@ -321,7 +315,6 @@ function update() {
         });
     });
 }
-
 
 function deleteData(id) {
     swal({

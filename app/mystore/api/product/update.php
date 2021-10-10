@@ -45,12 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $file_name = $_POST['old_img'];
     }
 
-    $sql = "UPDATE products SET pro_name=:name,pro_detail=:detail,pro_qty=:qty,pro_price=:price,
+    $sql = "UPDATE products SET pro_name=:name,pro_qty=:qty,pro_price=:price,
     pro_type=:type,pro_brand=:brand,pro_img=:img WHERE pro_id=:id";
     $stmt = $pdo->prepare($sql);
     $result = $stmt->execute([
         'name' => $_POST['name'],
-        'detail' => $_POST['detail'],
         'qty' => $_POST['qty'],
         'price' => $_POST['price'],
         'type' => $_POST['type'],

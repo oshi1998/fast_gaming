@@ -2,7 +2,11 @@
 session_start();
 require_once('app/api/connect.php');
 require_once('app/api/mystore.php');
-require_once('app/api/myproducts.php');
+
+$sql = "SELECT * FROM products ORDER BY pro_created DESC LIMIT 10";
+$stmt = $pdo->query($sql);
+$products = $stmt->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -130,7 +134,7 @@ require_once('app/api/myproducts.php');
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          สินค้าของเรา
+          สินค้ามาใหม่
         </h2>
       </div>
       <div class="row">
@@ -155,13 +159,6 @@ require_once('app/api/myproducts.php');
                   <h5>
                     <span>ราคา:</span> <?= number_format($product['pro_price'], 2) ?> บาท
                   </h5>
-                  <div class="star_container">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                  </div>
                 </div>
               </div>
             </div>

@@ -106,7 +106,7 @@ $types = $stmt->fetchAll();
                 <div class="col-sm-6 col-lg-4">
                   <div class="box">
                     <div class="img-box">
-                      <img src="app/images/products/<?= $product['pro_img'] ?>" alt="<?= $product['pro_detail'] ?>">
+                      <img src="app/images/products/<?= $product['pro_img'] ?>">
                       <a href="javascript:void(0)" class="add_cart_btn" onclick="addCart('<?= $product['pro_id'] ?>')">
                         <span>
                           ซื้อสินค้า
@@ -143,7 +143,7 @@ $types = $stmt->fetchAll();
                               <div class="col-sm-6 col-lg-4">
                                 <div class="box">
                                   <div class="img-box">
-                                    <img src="app/images/products/<?= $product['pro_img'] ?>" alt="<?= $product['pro_detail'] ?>">
+                                    <img src="app/images/products/<?= $product['pro_img'] ?>">
                                     <a href="javascript:void(0)" class="add_cart_btn" onclick="addCart('<?= $product['pro_id'] ?>')">
                                       <span>
                                         ซื้อสินค้า

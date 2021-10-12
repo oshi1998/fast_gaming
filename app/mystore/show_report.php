@@ -211,6 +211,7 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
                                 <th>ลำดับ</th>
                                 <th>รหัส</th>
                                 <th>รายการสินค้า</th>
+                                <th>จำนวน</th>
                                 <th>ราคาทั้งหมด</th>
                             </tr>
                         </thead>
@@ -233,17 +234,21 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
                                     <td><?= $row['od_id'] ?></td>
                                     <td>
                                         <ul>
+                                            <?php $amount = 0; ?>
                                             <?php foreach ($details as $detail) { ?>
                                                 <li><?= $detail['pro_name'] . " (จำนวน: $detail[odd_amount])" ?></li>
+                                                <?php $amount += $detail['odd_amount']; ?>
                                             <?php } ?>
                                         </ul>
                                     </td>
+                                    <td><?= $amount; ?></td>
                                     <td><?= number_format($row['od_total'], 2) ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <th>รวมทั้งสิ้น</th>
@@ -258,6 +263,7 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
                                 <th>ลำดับ</th>
                                 <th>รหัส</th>
                                 <th>รายการสินค้า</th>
+                                <th>จำนวน</th>
                                 <th>ราคาทั้งหมด</th>
                             </tr>
                         </thead>
@@ -280,17 +286,21 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
                                     <td><?= $row['od_id'] ?></td>
                                     <td>
                                         <ul>
+                                            <?php $amount = 0; ?>
                                             <?php foreach ($details as $detail) { ?>
                                                 <li><?= $detail['pro_name'] . " (จำนวน: $detail[odd_amount])" ?></li>
+                                                <?php $amount += $detail['odd_amount']; ?>
                                             <?php } ?>
                                         </ul>
                                     </td>
+                                    <td><?= $amount; ?></td>
                                     <td><?= number_format($row['od_total'], 2) ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <th>รวมทั้งสิ้น</th>
@@ -305,6 +315,7 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
                                 <th>ลำดับ</th>
                                 <th>รหัส</th>
                                 <th>รายการสินค้า</th>
+                                <th>จำนวน</th>
                                 <th>ราคาทั้งหมด</th>
                             </tr>
                         </thead>
@@ -327,17 +338,21 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
                                     <td><?= $row['od_id'] ?></td>
                                     <td>
                                         <ul>
+                                            <?php $amount = 0; ?>
                                             <?php foreach ($details as $detail) { ?>
                                                 <li><?= $detail['pro_name'] . " (จำนวน: $detail[odd_amount])" ?></li>
+                                                <?php $amount += $detail['odd_amount']; ?>
                                             <?php } ?>
                                         </ul>
                                     </td>
+                                    <td><?= $amount; ?></td>
                                     <td><?= number_format($row['od_total'], 2) ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <th>รวมทั้งสิ้น</th>
@@ -352,6 +367,7 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
                                 <th>ลำดับ</th>
                                 <th>รหัส</th>
                                 <th>รายการสินค้า</th>
+                                <th>จำนวน</th>
                                 <th>ราคาทั้งหมด</th>
                             </tr>
                         </thead>
@@ -374,17 +390,21 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
                                     <td><?= $row['od_id'] ?></td>
                                     <td>
                                         <ul>
+                                            <?php $amount = 0; ?>
                                             <?php foreach ($details as $detail) { ?>
                                                 <li><?= $detail['pro_name'] . " (จำนวน: $detail[odd_amount])" ?></li>
+                                                <?php $amount += $detail['odd_amount']; ?>
                                             <?php } ?>
                                         </ul>
                                     </td>
+                                    <td><?= $amount; ?></td>
                                     <td><?= number_format($row['od_total'], 2) ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <th>รวมทั้งสิ้น</th>

@@ -433,7 +433,7 @@ a:focus {
 
 .product_section .box .img-box img {
   height: 175px;
-  max-width: 100%;
+  width: 150px;
 }
 
 .product_section .box .img-box .add_cart_btn {

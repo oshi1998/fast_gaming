@@ -56,7 +56,192 @@ $types = $stmt->fetchAll();
 
   <title>สินค้าของเรา | <?= $store->st_name ?></title>
 
-  <?php require_once('layouts/head.php'); ?>
+  <?php include("layouts/head.php"); ?>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+      text-shadow: rgba(0, 0, 0, .01) 0 0 1px
+    }
+
+    div {
+      display: block;
+      position: relative;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box
+    }
+
+    .bbb_viewed {
+      padding-top: 51px;
+      padding-bottom: 60px;
+      background: #eff6fa
+    }
+
+    .bbb_main_container {
+      background-color: #fff;
+      padding: 11px
+    }
+
+    .bbb_viewed_title_container {
+      border-bottom: solid 1px #dadada
+    }
+
+    .bbb_viewed_title {
+      margin-bottom: 16px;
+      margin-top: 8px
+    }
+
+    .bbb_viewed_nav_container {
+      position: absolute;
+      right: -5px;
+      bottom: 14px
+    }
+
+    .bbb_viewed_nav {
+      display: inline-block;
+      cursor: pointer
+    }
+
+    .bbb_viewed_nav i {
+      color: #dadada;
+      font-size: 18px;
+      padding: 5px;
+      -webkit-transition: all 200ms ease;
+      -moz-transition: all 200ms ease;
+      -ms-transition: all 200ms ease;
+      -o-transition: all 200ms ease;
+      transition: all 200ms ease
+    }
+
+    .bbb_viewed_nav:hover i {
+      color: #606264
+    }
+
+    .bbb_viewed_prev {
+      margin-right: 15px
+    }
+
+    .bbb_viewed_slider_container {
+      padding-top: 13px
+    }
+
+    .bbb_viewed_item {
+      width: 100%;
+      background: #FFFFFF;
+      border-radius: 2px;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      padding-left: 30px;
+      padding-right: 30px
+    }
+
+    .bbb_viewed_image {
+      width: 150px;
+      height: 150px
+    }
+
+    .bbb_viewed_image img {
+      display: block;
+      max-width: 100%
+    }
+
+    .bbb_viewed_content {
+      width: 100%;
+      margin-top: 25px
+    }
+
+    .bbb_viewed_price {
+      font-size: 16px;
+      color: #000000;
+      font-weight: 500
+    }
+
+    .bbb_viewed_item.discount .bbb_viewed_price {
+      color: #df3b3b
+    }
+
+    .bbb_viewed_price span {
+      position: relative;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.6);
+      margin-left: 8px
+    }
+
+    .bbb_viewed_price span::after {
+      display: block;
+      position: absolute;
+      top: 6px;
+      left: -2px;
+      width: calc(100% + 4px);
+      height: 1px;
+      background: #8d8d8d;
+      content: ''
+    }
+
+    .bbb_viewed_name {
+      margin-top: 3px
+    }
+
+    .bbb_viewed_name a {
+      font-size: 14px;
+      color: #000000;
+      -webkit-transition: all 200ms ease;
+      -moz-transition: all 200ms ease;
+      -ms-transition: all 200ms ease;
+      -o-transition: all 200ms ease;
+      transition: all 200ms ease
+    }
+
+    .bbb_viewed_name a:hover {
+      color: #0e8ce4
+    }
+
+    .item_marks {
+      position: absolute;
+      top: 18px;
+      left: 18px
+    }
+
+    .item_mark {
+      display: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 36px;
+      text-align: center
+    }
+
+    .item_discount {
+      background: #df3b3b;
+      margin-right: 5px
+    }
+
+    .item_new {
+      background: #0e8ce4
+    }
+
+    .bbb_viewed_item.discount .item_discount {
+      display: inline-block
+    }
+
+    .bbb_viewed_item.is_new .item_new {
+      display: inline-block
+    }
+  </style>
 </head>
 
 <body class="sub_page">
@@ -100,8 +285,9 @@ $types = $stmt->fetchAll();
               </div>
             <?php endif ?>
           </div>
-          <div class="row">
-            <?php if (isset($_GET["type"]) && !empty($_GET["type"]) || isset($_GET["search_query"]) && !empty($search_row)) : ?>
+
+          <?php if (isset($_GET["type"]) && !empty($_GET["type"]) || isset($_GET["search_query"]) && !empty($search_row)) : ?>
+            <div class="row">
               <?php foreach ($products as $product) { ?>
                 <div class="col-sm-6 col-lg-4">
                   <div class="box">
@@ -128,8 +314,58 @@ $types = $stmt->fetchAll();
                   </div>
                 </div>
               <?php } ?>
-            <?php else : ?>
-              <div class="row">
+            </div>
+          <?php else : ?>
+            <div class="bbb_viewed">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <?php foreach ($types as $type) { ?>
+                      <div class="bbb_main_container">
+                        <div class="bbb_viewed_title_container">
+                          <h3 class="bbb_viewed_title"><?= $type["pt_name"] ?></h3>
+                        </div>
+                        <div class="bbb_viewed_slider_container">
+                          <div class="owl-carousel owl-theme bbb_viewed_slider">
+                            <?php foreach ($products as $product) { ?>
+                              <?php if ($product["pro_type"] == $type["pt_id"]) : ?>
+                                <div class="owl-item">
+                                  <div class="box">
+                                    <div class="img-box">
+                                      <img src="app/images/products/<?= $product['pro_img'] ?>">
+                                      <a href="javascript:void(0)" class="add_cart_btn" onclick="addCart('<?= $product['pro_id'] ?>')">
+                                        <span>
+                                          ซื้อสินค้า
+                                        </span>
+                                      </a>
+                                    </div>
+                                    <div class="detail-box">
+                                      <a href="product_detail.php?id=<?= $product['pro_id'] ?>">
+                                        <h5>
+                                          <?= $product['pro_name'] ?>
+                                        </h5>
+                                      </a>
+                                      <div class="product_info">
+                                        <h5>
+                                          <span>ราคา:</span> <?= number_format($product['pro_price'], 2) ?> บาท
+                                        </h5>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              <?php endif ?>
+                            <?php } ?>
+                          </div>
+                        </div>
+                      </div>
+                    <?php } ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- <div class="row">
                 <?php foreach ($types as $type) { ?>
                   <div class="col-12">
                     <div class="card">
@@ -172,9 +408,9 @@ $types = $stmt->fetchAll();
                     <br><hr>
                   </div>
                 <?php } ?>
-              </div>
-            <?php endif ?>
-          </div>
+              </div> -->
+          <?php endif ?>
+
         </div>
       </div>
 
@@ -185,8 +421,59 @@ $types = $stmt->fetchAll();
 
 
   <?php require_once('layouts/footer.php'); ?>
-
   <script src="app/functions/cart.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+
+      if ($('.bbb_viewed_slider').length) {
+
+        var viewedSlider = $('.bbb_viewed_slider');
+
+        viewedSlider.owlCarousel({
+          loop: true,
+          margin: 30,
+          autoplay: true,
+          autoplayTimeout: 3000,
+          nav: false,
+          dots: false,
+          responsive: {
+            0: {
+              items: 1
+            },
+            575: {
+              items: 2
+            },
+            768: {
+              items: 3
+            },
+            991: {
+              items: 4
+            },
+            1199: {
+              items: 6
+            }
+          }
+        });
+
+        if ($('.bbb_viewed_prev').length) {
+          var prev = $('.bbb_viewed_prev');
+          prev.on('click', function() {
+            viewedSlider.trigger('prev.owl.carousel');
+          });
+        }
+
+        if ($('.bbb_viewed_next').length) {
+          var next = $('.bbb_viewed_next');
+          next.on('click', function() {
+            viewedSlider.trigger('next.owl.carousel');
+          });
+        }
+      }
+
+
+    });
+  </script>
 </body>
 
 </html>

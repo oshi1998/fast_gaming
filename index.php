@@ -3,7 +3,7 @@ session_start();
 require_once('app/api/connect.php');
 require_once('app/api/mystore.php');
 
-$sql = "SELECT * FROM products ORDER BY pro_created DESC LIMIT 10";
+$sql = "SELECT * FROM products WHERE pro_status=0 ORDER BY pro_created DESC LIMIT 10";
 $stmt = $pdo->query($sql);
 $products = $stmt->fetchAll();
 
@@ -143,11 +143,19 @@ $products = $stmt->fetchAll();
             <div class="box">
               <div class="img-box">
                 <img src="app/images/products/<?= $product['pro_img'] ?>">
-                <a href="javascript:void(0)" class="add_cart_btn" onclick="addCart('<?= $product['pro_id'] ?>')">
-                  <span>
-                    ซื้อสินค้า
-                  </span>
-                </a>
+                <?php if ($product['pro_qty'] == 0) : ?>
+                  <a class="add_cart_btn" disabled>
+                    <span>
+                      สินค้าหมด
+                    </span>
+                  </a>
+                <?php else : ?>
+                  <a href="javascript:void(0)" class="add_cart_btn" onclick="addCart('<?= $product['pro_id'] ?>')">
+                    <span>
+                      ซื้อสินค้า
+                    </span>
+                  </a>
+                <?php endif ?>
               </div>
               <div class="detail-box">
                 <a href="product_detail.php?id=<?= $product['pro_id'] ?>">

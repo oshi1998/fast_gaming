@@ -81,9 +81,15 @@ if (!isset($_SESSION['CUSTOMER_USERNAME']) && empty($_SESSION['CUSTOMER_USERNAME
                 <div class="col-12">
                     <hr>
                     <strong>ราคา/ชิ้น : <?= number_format($product->pro_price, 2) ?> บาท (มีสินค้าทั้งหมด : <?= $product->pro_qty ?> ชิ้น)</strong> <br><br>
-                    <button class="btn btn-primary" onclick="addCart('<?= $product->pro_id ?>')">
-                        ซื้อสินค้า
-                    </button>
+                    <?php if ($product->pro_qty == 0) : ?>
+                        <button class="btn btn-danger" disabled>
+                            สินค้าหมด
+                        </button>
+                    <?php else : ?>
+                        <button class="btn btn-primary" onclick="addCart('<?= $product->pro_id ?>')">
+                            ซื้อสินค้า
+                        </button>
+                    <?php endif ?>
                 </div>
             </div>
         </div>

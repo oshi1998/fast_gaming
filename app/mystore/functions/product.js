@@ -7,8 +7,26 @@ function read() {
 
         let data = res.data;
         let data_table;
+        let status;
 
         data.forEach(element => {
+
+            if (element['pro_status'] == 0) {
+                status = `
+                    <div class="custom-control custom-switch text-center">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch${element['pro_id']}" onchange="disable('${element['pro_id']}')" checked>
+                        <label class="custom-control-label" for="customSwitch${element['pro_id']}"></label>
+                    </div>
+                `
+            } else {
+                status = `
+                    <div class="custom-control custom-switch text-center">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch${element['pro_id']}" onchange="enable('${element['pro_id']}')">
+                        <label class="custom-control-label" for="customSwitch${element['pro_id']}"></label>
+                    </div>
+                `
+            }
+
             data_table += `
                 <tr>
                     <td>${element['pro_created']}</td>
@@ -21,6 +39,9 @@ function read() {
                     <td>${element['pro_name']}</td>
                     <td>${element['pro_price']}</td>
                     <td>${element['pro_qty']}</td>
+                    <td>
+                        ${status}
+                    </td>
                     <td>
                         <a class="btn btn-info" href="product_detail.php?id=${element['pro_id']}">
                             <i class="fas fa-edit"></i>
@@ -350,5 +371,41 @@ function deleteData(id) {
         } else {
             return;
         }
+    });
+}
+
+function enable(id) {
+    $.ajax({
+        method: "get",
+        url: "api/product/enable.php",
+        data: {
+            "id": id
+        }
+    }).done(function (res) {
+        console.log(res);
+    }).fail(function (res) {
+        swal({
+            title: "ผิดพลาด",
+            text: res.responseJSON["message"],
+            icon: "error"
+        });
+    });
+}
+
+function disable(id) {
+    $.ajax({
+        method: "get",
+        url: "api/product/disable.php",
+        data: {
+            "id": id
+        }
+    }).done(function (res) {
+        console.log(res);
+    }).fail(function (res) {
+        swal({
+            title: "ผิดพลาด",
+            text: res.responseJSON["message"],
+            icon: "error"
+        });
     });
 }

@@ -115,6 +115,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <th>ชื่อ</th>
                                                 <th>ราคา</th>
                                                 <th>คงเหลือ</th>
+                                                <th>สถานะ <br> (ไม่เผยแพร่/เผยแพร่)</th>
                                                 <th>จัดการ</th>
                                             </tr>
                                         </thead>
@@ -178,8 +179,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="dist/js/adminlte.min.js"></script>
     <!-- CKEDITOR -->
     <script src="plugins/ckeditor/ckeditor.js"></script>
-
-    <!-- Brand Function -->
+    <!-- Product Function -->
     <script src="functions/product.js"></script>
 </body>
 

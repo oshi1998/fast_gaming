@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     header("Content-type:application/json");
     require_once('../connect.php');
 
-    if (empty(trim($_POST['note']))) {
+    if (empty($_POST['reason'])) {
         http_response_code(412);
         echo json_encode(['message' => "ต้องระบุสาเหตุของการพ้นสภาพพนักงาน"]);
         exit;
@@ -15,12 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit;
     }
 
-    $sql = "UPDATE employees SET emp_out_date=:out,emp_status=:status,emp_note=:note WHERE emp_id=:id";
+    $sql = "UPDATE employees SET emp_out_date=:out,emp_status=:status,emp_note=:note,emp_out_reason=:reason WHERE emp_id=:id";
     $stmt = $pdo->prepare($sql);
     $result = $stmt->execute([
         'out' => $_POST['out_date'],
         'status' => "พ้นสภาพพนักงาน",
         'note' => $_POST['note'],
+        'reason' => $_POST['reason'],
         'id' => $_POST['id']
     ]);
 

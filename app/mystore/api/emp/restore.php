@@ -15,12 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit;
     }
 
-    $sql = "UPDATE employees SET emp_out_date=:out,emp_status=:status,emp_note=:note WHERE emp_id=:id";
+    $sql = "UPDATE employees SET emp_out_date=:out,emp_status=:status,emp_note=:note,emp_out_reason=:reason WHERE emp_id=:id";
     $stmt = $pdo->prepare($sql);
     $result = $stmt->execute([
         'out' => NULL,
         'status' => $_POST['status'],
         'note' => "",
+        'reason' => "",
         'id' => $_POST['id']
     ]);
 

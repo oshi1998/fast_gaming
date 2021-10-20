@@ -509,7 +509,27 @@ function out(id) {
     </div>
 
     <div class="form-group">
-        <label>สาเหตุการพ้นสภาพ</label>
+        <label>สาเหตุ</label>
+        <div class="custom-control custom-radio">
+            <input class="custom-control-input" type="radio" id="customRadio1" name="reason" value="ถึงแก่กรรม">
+            <label for="customRadio1" class="custom-control-label">ถึงแก่กรรม</label>
+        </div>
+        <div class="custom-control custom-radio">
+            <input class="custom-control-input" type="radio" id="customRadio2" name="reason" value="เกษียณอายุ">
+            <label for="customRadio2" class="custom-control-label">เกษียณอายุ</label>
+        </div>
+        <div class="custom-control custom-radio">
+            <input class="custom-control-input" type="radio" id="customRadio3" name="reason" value="ลาออก">
+            <label for="customRadio3" class="custom-control-label">ลาออก</label>
+        </div>
+        <div class="custom-control custom-radio">
+            <input class="custom-control-input" type="radio" id="customRadio4" name="reason" value="เลิกจ้าง">
+            <label for="customRadio4" class="custom-control-label">เลิกจ้าง</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>หมายเหตุการพ้นสภาพ</label>
         <textarea class="form-control" name="note"></textarea>
     </div>
 
@@ -591,7 +611,7 @@ function restore(id) {
         </form>
     `;
 
-    $('#myModalLabel').text("คืนสภาพพนักงาน "+id);
+    $('#myModalLabel').text("คืนสภาพพนักงาน " + id);
     $('#myModalBody').html(form);
     $('#myModal').modal('show');
 }

@@ -309,6 +309,7 @@ function sendCode(code) {
                 <label>ลูกค้า</label>
                 <select class="form-control" name="customer">
                     <option value="" selected disabled>---- เลือกลูกค้า ----</option>
+                    <option value="*">ลูกค้าทุกคน</option>
                     ${customer_list}
                 </select>
             </div>

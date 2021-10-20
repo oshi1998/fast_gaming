@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2021 at 04:51 PM
+-- Generation Time: Oct 20, 2021 at 04:27 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -90,7 +90,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`cus_username`, `cus_firstname`, `cus_lastname`, `cus_address`, `cus_phone`, `cus_email`, `cus_gender`, `cus_password`, `cus_created`, `cus_updated`) VALUES
-('oshi', 'วงศ์วสันต์', 'ดวงเกตุ', 'ร้อยเอ็ด', '0972651700', '', 'ชาย', '$2y$10$BnZQcdd6/0bHIlbD52g5suQ6RY3IGYUwqcLihuoPsjVVxcrBz/HHa', '2021-09-28 18:46:53', '2021-10-01 21:47:52');
+('oshi', 'วงศ์วสันต์', 'ดวงเกตุ', 'ร้อยเอ็ด', '0972651700', '', 'ชาย', '$2y$10$BnZQcdd6/0bHIlbD52g5suQ6RY3IGYUwqcLihuoPsjVVxcrBz/HHa', '2021-09-28 18:46:53', '2021-10-01 21:47:52'),
+('testcus', 'test', 'test', '', '', '', 'ชาย', '$2y$10$3ogNrY3tbG9XiNR29IRSweCyRJ/VJW3z9IquHwZREHPU/B5m3jxQu', '2021-10-20 14:26:56', '2021-10-20 14:26:56');
 
 -- --------------------------------------------------------
 
@@ -135,6 +136,7 @@ CREATE TABLE `employees` (
   `emp_id_card_img` text NOT NULL COMMENT 'รูปภาพบัตรประจำตัวประชาชน',
   `emp_join_date` date DEFAULT NULL COMMENT 'วันเข้าทำงาน',
   `emp_out_date` date DEFAULT NULL COMMENT 'วันที่พ้นสภาพ',
+  `emp_out_reason` varchar(255) NOT NULL COMMENT 'สาเหตุพ้นสภาพ',
   `emp_status` varchar(255) NOT NULL COMMENT 'สถานะพนักงาน',
   `emp_note` text NOT NULL COMMENT 'หมายเหตุ',
   `emp_contract` text NOT NULL COMMENT 'ไฟล์สัญญาจ้าง',
@@ -146,8 +148,8 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`emp_id`, `emp_firstname`, `emp_lastname`, `emp_contact`, `emp_level`, `emp_password`, `emp_avatar`, `emp_id_card_code`, `emp_id_card_img`, `emp_join_date`, `emp_out_date`, `emp_status`, `emp_note`, `emp_contract`, `emp_created`, `emp_updated`) VALUES
-('EMP2021103172144', 'วงศ์วสันต์', 'ดวงเกตุ', '', 'พนักงาน', '$2y$10$G/nZ5fvvUSpLErQapotgQeI4zjixRG/OviReA8DamrY2IjiybamNm', '6159844718724.jpg', '', '', '2021-10-03', NULL, 'พนักงานประจำ', '', '', '2021-10-03 10:21:59', '2021-10-03 11:15:02');
+INSERT INTO `employees` (`emp_id`, `emp_firstname`, `emp_lastname`, `emp_contact`, `emp_level`, `emp_password`, `emp_avatar`, `emp_id_card_code`, `emp_id_card_img`, `emp_join_date`, `emp_out_date`, `emp_out_reason`, `emp_status`, `emp_note`, `emp_contract`, `emp_created`, `emp_updated`) VALUES
+('EMP2021103172144', 'วงศ์วสันต์', 'ดวงเกตุ', '', 'พนักงาน', '$2y$10$G/nZ5fvvUSpLErQapotgQeI4zjixRG/OviReA8DamrY2IjiybamNm', '6159844718724.jpg', '', '', '2021-10-03', '2021-10-20', 'เลิกจ้าง', 'พ้นสภาพพนักงาน', '', '', '2021-10-03 10:21:59', '2021-10-20 14:17:31');
 
 -- --------------------------------------------------------
 
@@ -384,7 +386,9 @@ CREATE TABLE `using_dc` (
 INSERT INTO `using_dc` (`use_id`, `use_cus_username`, `use_dc_code`, `use_od_id`, `use_created`) VALUES
 (2, 'oshi', 'TEST66', 'OD20211002-739', '2021-10-01 22:19:30'),
 (3, 'oshi', 'TEST2', 'OD20211002-1094', '2021-10-02 09:25:43'),
-(4, 'oshi', 'NEWCUSTOMER2021', NULL, '2021-10-03 10:18:54');
+(4, 'oshi', 'NEWCUSTOMER2021', NULL, '2021-10-03 10:18:54'),
+(5, 'oshi', 'NEWCUSTOMER2021', NULL, '2021-10-20 14:27:17'),
+(6, 'testcus', 'NEWCUSTOMER2021', NULL, '2021-10-20 14:27:17');
 
 --
 -- Indexes for dumped tables
@@ -521,7 +525,7 @@ ALTER TABLE `shipping`
 -- AUTO_INCREMENT for table `using_dc`
 --
 ALTER TABLE `using_dc`
-  MODIFY `use_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัส', AUTO_INCREMENT=5;
+  MODIFY `use_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'รหัส', AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

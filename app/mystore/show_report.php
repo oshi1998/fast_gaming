@@ -14,6 +14,12 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
         $data = $stmt->fetchAll();
 
         $title = "รายชื่อพนักงานปัจจุบัน (ทั้งหมด)";
+    } else if ($_GET['report'] == "allempout") {
+        $sql = "SELECT * FROM employees WHERE emp_status='พ้นสภาพพนักงาน' ORDER BY emp_out_date DESC";
+        $stmt = $pdo->query($sql);
+        $data = $stmt->fetchAll();
+
+        $title = "รายชื่อพนักงานที่พ้นสภาพ (ทั้งหมด)";
     } else if ($_GET['report'] == "allcus") {
         $sql = "SELECT * FROM customers";
         $stmt = $pdo->query($sql);
@@ -122,6 +128,34 @@ if (isset($_GET['report']) && !empty($_GET['report'])) {
                                     <td><?= $row['emp_lastname'] ?></td>
                                     <td><?= $row['emp_contact'] ?></td>
                                     <td><?= $row['emp_level'] ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                <?php elseif ($_GET['report']=="allempout") : ?>
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>ลำดับ</th>
+                                <th>รหัสพนักงาน</th>
+                                <th>ชื่อจริง</th>
+                                <th>นามสกุล</th>
+                                <th>สาเหตุ</th>
+                                <th>หมายเหตุ</th>
+                                <th>วันที่พ้นสภาพ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 1; ?>
+                            <?php foreach ($data as $row) { ?>
+                                <tr>
+                                    <td><?= $no++ ?></td>
+                                    <td><?= $row['emp_id'] ?></td>
+                                    <td><?= $row['emp_firstname'] ?></td>
+                                    <td><?= $row['emp_lastname'] ?></td>
+                                    <td><?= $row['emp_out_reason'] ?></td>
+                                    <td><?= $row['emp_note'] ?></td>
+                                    <td><?= $row['emp_out_date'] ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>

@@ -66,6 +66,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <a target="_blank" href="show_report.php?report=allempnow">รายชื่อพนักงานปัจจุบัน (ทั้งหมด)</a>
                                 </li>
                                 <li>
+                                    <a target="_blank" href="show_report.php?report=allempout">ราชื่อพนักงานที่พ้นสภาพ (ทั้งหมด)</a>
+                                </li>
+                                <li>
                                     <a target="_blank" href="show_report.php?report=allcus">รายชื่อลูกค้า (ทั้งหมด)</a>
                                 </li>
                                 <li>
